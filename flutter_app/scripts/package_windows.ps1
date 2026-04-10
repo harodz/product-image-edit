@@ -80,7 +80,7 @@ Write-Host "  Copying flutter_app source to local NTFS temp dir..."
 Write-Host "  (from: $FLUTTER_DIR)"
 Write-Host "  (to:   $LOCAL_FLUTTER_DIR)"
 # robocopy /E = recurse including empty dirs; /XD excludes dirs; exit codes 0-7 = success.
-& robocopy "$FLUTTER_DIR" "$LOCAL_FLUTTER_DIR" /E /XD build stitch_exports .dart_tool /NFL /NDL /NJH /NJS /A-:R | Out-Null
+& robocopy "$FLUTTER_DIR" "$LOCAL_FLUTTER_DIR" /E /XD build stitch_exports .dart_tool /XF .flutter-plugins .flutter-plugins-dependencies /NFL /NDL /NJH /NJS /A-:R | Out-Null
 if ($LASTEXITCODE -ge 8) { throw "robocopy failed (exit $LASTEXITCODE)" }
 
 Push-Location $LOCAL_FLUTTER_DIR
