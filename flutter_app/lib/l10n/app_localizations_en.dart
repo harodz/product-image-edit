@@ -69,7 +69,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get flagMaxApiRetries => '--max-api-retries';
 
   @override
-  String get maxApiRetriesHelp => 'Maximum attempts per file before flagging failure.';
+  String get maxApiRetriesHelp =>
+      'Maximum attempts per file before flagging failure.';
 
   @override
   String get flagKeepRaw => '--keep-raw';
@@ -168,7 +169,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tipsHeading => 'TIPS';
 
   @override
-  String get tipsBody => '• Lower workers if you see repeated 429 errors.\n• Re-run to resume from checkpoint.\n• Set API key in API & account.';
+  String get tipsBody =>
+      '• Lower workers if you see repeated 429 errors.\n• Re-run to resume from checkpoint.\n• Set API key in API & account.';
 
   @override
   String get screenApiAccount => 'API & account';
@@ -177,7 +179,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get geminiApiKeyTitle => 'Gemini API key';
 
   @override
-  String get geminiApiKeyDescription => 'Saved automatically to your app data folder as you type (and when you leave this field). It is not embedded in the app bundle.';
+  String get geminiApiKeyDescription =>
+      'Saved automatically to your app data folder as you type (and when you leave this field). It is not embedded in the app bundle.';
 
   @override
   String get apiKeyHint => 'GEMINI_API_KEY';
@@ -350,10 +353,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emptyNoActiveRun => 'No active run';
 
   @override
-  String get emptyWaitingFirstImageSub => 'Images will appear here as they are processed.';
+  String get emptyWaitingFirstImageSub =>
+      'Images will appear here as they are processed.';
 
   @override
-  String get emptyNoActiveRunSub => 'Run a pipeline from Pipeline Settings to begin. If the input folder has files but this list is empty, they are skipped until you mark them needs edit or rejected in the Output Gallery (see _pipeline_image_state.json).';
+  String get emptyNoActiveRunSub =>
+      'Run a pipeline from Pipeline Settings to begin. If the input folder has files but this list is empty, they are skipped until you mark them needs edit or rejected in the Output Gallery (see _pipeline_image_state.json).';
 
   @override
   String get failuresHeading => 'Failures';

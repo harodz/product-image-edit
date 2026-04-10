@@ -16,6 +16,7 @@ $DIST_DIR = "$ROOT_DIR\dist"
 $PY_BUILD_DIR = "$DIST_DIR\python-build"
 $RUNNER_DIST_DIR = "$PY_BUILD_DIR\dist"
 $RUNNER_BIN = "$RUNNER_DIST_DIR\pipeline_runner.exe"
+$GWT_BIN = "$ROOT_DIR\bin\GeminiWatermarkTool.exe"
 # $RELEASE_DIR is set after the Flutter build (may use a local temp copy — see step 2).
 $RELEASE_DIR = $null
 
@@ -79,7 +80,7 @@ Write-Host "  Copying flutter_app source to local NTFS temp dir..."
 Write-Host "  (from: $FLUTTER_DIR)"
 Write-Host "  (to:   $LOCAL_FLUTTER_DIR)"
 # robocopy /E = recurse including empty dirs; /XD excludes dirs; exit codes 0-7 = success.
-& robocopy "$FLUTTER_DIR" "$LOCAL_FLUTTER_DIR" /E /XD build stitch_exports .dart_tool /NFL /NDL /NJH /NJS | Out-Null
+& robocopy "$FLUTTER_DIR" "$LOCAL_FLUTTER_DIR" /E /XD build stitch_exports .dart_tool /NFL /NDL /NJH /NJS /A-:R | Out-Null
 if ($LASTEXITCODE -ge 8) { throw "robocopy failed (exit $LASTEXITCODE)" }
 
 Push-Location $LOCAL_FLUTTER_DIR
@@ -106,11 +107,18 @@ if (-not (Test-Path $RELEASE_DIR)) {
     exit 1
 }
 
+if (-not (Test-Path $GWT_BIN)) {
+    Write-Error "GeminiWatermarkTool.exe not found: $GWT_BIN`nDownload from https://github.com/allenk/GeminiWatermarkTool/releases"
+    exit 1
+}
+
 $BACKEND_DIR = "$RELEASE_DIR\data\flutter_assets\backend"
 New-Item -ItemType Directory -Force -Path $BACKEND_DIR | Out-Null
 Copy-Item $RUNNER_BIN "$BACKEND_DIR\pipeline_runner.exe" -Force
+Copy-Item $GWT_BIN "$BACKEND_DIR\GeminiWatermarkTool.exe" -Force
 
 Write-Host "  -> $BACKEND_DIR\pipeline_runner.exe"
+Write-Host "  -> $BACKEND_DIR\GeminiWatermarkTool.exe"
 
 # ---------------------------------------------------------------------------
 # [4/4] Done

@@ -168,7 +168,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tipsHeading => '提示';
 
   @override
-  String get tipsBody => '• 若频繁出现 429，请降低并发数。\n• 重新运行可从检查点继续。\n• 请在「API 与账户」中设置 API 密钥。';
+  String get tipsBody =>
+      '• 若频繁出现 429，请降低并发数。\n• 重新运行可从检查点继续。\n• 请在「API 与账户」中设置 API 密钥。';
 
   @override
   String get screenApiAccount => 'API 与账户';
@@ -177,7 +178,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get geminiApiKeyTitle => 'Gemini API 密钥';
 
   @override
-  String get geminiApiKeyDescription => '输入内容会自动保存到应用数据目录（离开输入框时也会保存）。密钥不会打包进应用本体。';
+  String get geminiApiKeyDescription =>
+      '输入内容会自动保存到应用数据目录（离开输入框时也会保存）。密钥不会打包进应用本体。';
 
   @override
   String get apiKeyHint => 'GEMINI_API_KEY';
@@ -351,7 +353,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get emptyWaitingFirstImageSub => '图片处理后将显示在此处。';
 
   @override
-  String get emptyNoActiveRunSub => '请在「流水线设置」中启动流水线。若输入文件夹中有文件但列表为空，表示这些文件已被跳过，请在输出图库中将对应项标为「需修改」或「已拒绝」后重试（参见 _pipeline_image_state.json）。';
+  String get emptyNoActiveRunSub =>
+      '请在「流水线设置」中启动流水线。若输入文件夹中有文件但列表为空，表示这些文件已被跳过，请在输出图库中将对应项标为「需修改」或「已拒绝」后重试（参见 _pipeline_image_state.json）。';
 
   @override
   String get failuresHeading => '失败';

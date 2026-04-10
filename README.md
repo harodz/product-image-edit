@@ -61,6 +61,13 @@ If **`--failed-log`** is set, each failed image is also appended to the JSONL wi
 
 ## Logo removal only
 
+Watermark removal is handled by [GeminiWatermarkTool](https://github.com/allenk/GeminiWatermarkTool) (reverse alpha-blending). Download the binary for your platform from the releases page and place it at `bin/GeminiWatermarkTool` (macOS/Linux) or `bin\GeminiWatermarkTool.exe` (Windows). The `bin/` directory is git-ignored.
+
+The binary is discovered in this order at runtime:
+1. `GWT_PATH` environment variable
+2. `bin/GeminiWatermarkTool[.exe]` next to this repo
+3. `GeminiWatermarkTool` on system `PATH`
+
 If you already have Gemini-generated PNGs named `Gemini_Generated_Image_*.png` in this project folder:
 
 ```bash
@@ -84,7 +91,7 @@ Or import `process_image` from `remove_gemini_logo` and pass paths programmatica
 
 ## Notes
 
-- Generated images may include SynthID watermarking per Google’s policy; this tool only removes the visible corner sparkle when it matches the expected bright region.
+- Generated images may include SynthID watermarking per Google’s policy. The visible corner sparkle is removed via [GeminiWatermarkTool](https://github.com/allenk/GeminiWatermarkTool) using reverse alpha-blending; SynthID (invisible statistical watermark) cannot be removed.
 - Large batches are subject to API rate limits and per-image cost. The pipeline retries **429** / **503** responses automatically. For persistent quota errors use **`--rate-limit RPM`** to smooth out the request rate, or lower `--workers`; see your [rate limits](https://ai.google.dev/gemini-api/docs/rate-limits).
 
 ## Flutter Desktop App (UI + Pipeline)
@@ -118,13 +125,13 @@ For distribution packaging (single coherent app bundle):
 ```bash
 ./flutter_app/scripts/package_macos.sh
 ```
-Builds a standalone Python runner and embeds it into the Flutter `.app` bundle (`Contents/Resources/backend/pipeline_runner`).
+Builds a standalone Python runner and embeds it into the Flutter `.app` bundle (`Contents/Resources/backend/pipeline_runner`). Also embeds `bin/GeminiWatermarkTool` as `Contents/Resources/backend/GeminiWatermarkTool` — the binary must be present before running the script.
 
 **Windows** (run in PowerShell on a Windows machine with Flutter + uv installed)
 ```powershell
 powershell -ExecutionPolicy Bypass -File flutter_app\scripts\package_windows.ps1
 ```
-Builds `pipeline_runner.exe` with PyInstaller and embeds it into the Flutter Windows release at `data\flutter_assets\backend\pipeline_runner.exe`. The script copies Flutter source to a local NTFS temp dir before building to avoid MSBuild failures on Mac-shared drives (Parallels/VMware).
+Builds `pipeline_runner.exe` with PyInstaller and embeds it into the Flutter Windows release at `data\flutter_assets\backend\pipeline_runner.exe`. Also embeds `bin\GeminiWatermarkTool.exe` alongside it. The script copies Flutter source to a local NTFS temp dir before building to avoid MSBuild failures on Mac-shared drives (Parallels/VMware).
 
 **Shipped desktop app (no Python install required):** release builds only need a `.env` with `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) in the Flutter **application support** directory (the UI shows the exact path on Pipeline Settings). The Flutter host passes that directory to the runner as `PRODUCT_IMAGE_EDIT_APP_DATA`, so config and `_failed/` staging stay in one writable place.
 

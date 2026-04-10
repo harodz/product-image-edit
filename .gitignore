@@ -21,6 +21,9 @@ service-account*.json
 google-services.json
 GoogleService-Info.plist
 
+# Bundled binaries (download from GitHub releases)
+bin/
+
 # Local input/output and OS junk
 1/
 product_output/

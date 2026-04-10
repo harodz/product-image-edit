@@ -20,9 +20,16 @@ mkdir -p "$DIST_DIR"
 rm -rf "$PY_BUILD_DIR"
 mkdir -p "$PY_BUILD_DIR"
 
+GWT_BIN="$ROOT_DIR/bin/GeminiWatermarkTool"
+
 embed_pipeline_runner_in_bundles() {
   if [[ ! -f "$RUNNER_BIN" ]]; then
     echo "error: PyInstaller output missing: $RUNNER_BIN" >&2
+    exit 1
+  fi
+  if [[ ! -f "$GWT_BIN" ]]; then
+    echo "error: GeminiWatermarkTool binary missing: $GWT_BIN" >&2
+    echo "       Download from https://github.com/allenk/GeminiWatermarkTool/releases" >&2
     exit 1
   fi
   shopt -s nullglob
@@ -38,6 +45,8 @@ embed_pipeline_runner_in_bundles() {
     mkdir -p "$dest_dir"
     cp "$RUNNER_BIN" "$dest_dir/pipeline_runner"
     chmod +x "$dest_dir/pipeline_runner"
+    cp "$GWT_BIN" "$dest_dir/GeminiWatermarkTool"
+    chmod +x "$dest_dir/GeminiWatermarkTool"
   done
 }
 
@@ -58,6 +67,7 @@ uv run --with pyinstaller pyinstaller \
 
 echo "[2/4] Building Flutter macOS release app..."
 cd "$FLUTTER_DIR"
+flutter clean
 flutter build macos --release
 
 if [[ "${WITH_DEBUG:-0}" == "1" ]]; then
