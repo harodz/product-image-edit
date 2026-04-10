@@ -1,0 +1,43 @@
+{
+  "name": "projects/1862088916126695377",
+  "title": "Product Image Batch Editor",
+  "visibility": "PRIVATE",
+  "projectType": "TEXT_TO_UI_PRO",
+  "deviceType": "DESKTOP",
+  "designSystemAsset": "assets/6a3e97f767af4d18b2988501878cc21e",
+  "thumbnailScreenshotUrl": "https://lh3.googleusercontent.com/aida/ADBb0uhWRFRfUcvUKoI9ZDpAo89Kl78B1Lg9O3uEYT5hC8HHsySmu3s8QYPQIysp3njbpD50Q3Uwhi88nRlUDcYUt8rCEzIT2obLyOJnhsSkXfVQdSFBzKeRxkg-D4g4dl4BQAdQVpk6L1t7yEPWshHnnSVf1zJJiocKc8zeViZzGI0DjNyHjCCmuTDdkhSs2En7O4oX3lvc3FNtFfO-X_sognfMZy0dPuWjL8R60nno7GJ20S-rABmObaywq8M",
+  "screenInstances": [
+    {
+      "id": "1d80a2992dde45e6b00cc34ebd7517d9",
+      "sourceScreen": "projects/1862088916126695377/screens/1d80a2992dde45e6b00cc34ebd7517d9"
+    },
+    {
+      "id": "cc6e2945f9c0456b82ca67cc64072c82",
+      "sourceScreen": "projects/1862088916126695377/screens/cc6e2945f9c0456b82ca67cc64072c82"
+    },
+    {
+      "id": "d8fb87839e044afe809d1ff47c947aef",
+      "sourceScreen": "projects/1862088916126695377/screens/d8fb87839e044afe809d1ff47c947aef"
+    },
+    {
+      "id": "c995236215644e3594a4a68c11498ed0",
+      "sourceScreen": "projects/1862088916126695377/screens/c995236215644e3594a4a68c11498ed0"
+    },
+    {
+      "id": "71e6ee4138384666bb43e2d9172d372f",
+      "sourceScreen": "projects/1862088916126695377/screens/71e6ee4138384666bb43e2d9172d372f"
+    },
+    {
+      "id": "ea6877e3016d47f4a3659e7628a6f0fa",
+      "sourceScreen": "projects/1862088916126695377/screens/ea6877e3016d47f4a3659e7628a6f0fa"
+    },
+    {
+      "id": "05fa81596e9e427da9f5c57ce0e87a2b",
+      "sourceScreen": "projects/1862088916126695377/screens/05fa81596e9e427da9f5c57ce0e87a2b"
+    },
+    {
+      "id": "asset-stub-assets-6a3e97f767af4d18b2988501878cc21e-1775632774695",
+      "sourceAsset": "assets/6a3e97f767af4d18b2988501878cc21e"
+    }
+  ]
+}

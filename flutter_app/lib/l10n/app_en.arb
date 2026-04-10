@@ -1,0 +1,226 @@
+{
+  "@@locale": "en",
+  "appTitle": "Product Image Editor",
+  "navBrand": "Product\nPipeline",
+  "navPipelineSettings": "Pipeline Settings",
+  "navBatchDashboard": "Batch Dashboard",
+  "navOutputGallery": "Output Gallery",
+  "navApiAccount": "API & account",
+  "dropFolderHint": "Drop folder or image, or browse",
+  "selectImages": "Select Image(s)",
+  "browseFolder": "Browse Folder",
+  "dialogSelectFolder": "Select folder",
+  "dialogSelectImages": "Select image(s)",
+  "screenPipelineSettings": "Pipeline Settings",
+  "sectionBatchConfiguration": "BATCH CONFIGURATION",
+  "inputFolderOrImage": "Input folder or image",
+  "outputDirectory": "Output Directory",
+  "sectionExecutionParameters": "EXECUTION PARAMETERS",
+  "flagWorkers": "--workers",
+  "workersMinLabel": "1 JOB",
+  "workersMaxLabel": "64 JOBS (MAX)",
+  "flagMaxApiRetries": "--max-api-retries",
+  "maxApiRetriesHelp": "Maximum attempts per file before flagging failure.",
+  "flagKeepRaw": "--keep-raw",
+  "keepRawSubtitle": "Preserve original buffers alongside output.",
+  "flagFailFast": "--fail-fast",
+  "failFastSubtitle": "Abort pipeline on first error.",
+  "moreOptions": "More options",
+  "promptLabel": "Prompt",
+  "useResponseModalities": "Use response modalities",
+  "copyFailed": "Copy failed",
+  "noProgress": "No progress",
+  "pipelineRunning": "Pipeline running",
+  "allSystemsOperational": "All systems operational",
+  "cancel": "Cancel",
+  "previewCommand": "Preview Command",
+  "runningEllipsis": "Running...",
+  "runPipeline": "Run Pipeline",
+  "commandPreview": "Command Preview",
+  "close": "Close",
+  "sectionNeuralModel": "NEURAL MODEL",
+  "modelDescRecommended": "Recommended · High Accuracy",
+  "modelDescFast": "Fast Inference",
+  "modelDescLegacy": "Legacy · Stable",
+  "customModel": "Custom model",
+  "activeBadge": "ACTIVE",
+  "currentProfile": "CURRENT PROFILE",
+  "statusReady": "Ready",
+  "statusRunning": "Running",
+  "statusDone": "Done",
+  "statusFailed": "Failed",
+  "profileWorkers": "Workers",
+  "profileRetries": "Retries",
+  "profileOutputImages": "Output images",
+  "tipsHeading": "TIPS",
+  "tipsBody": "• Lower workers if you see repeated 429 errors.\n• Re-run to resume from checkpoint.\n• Set API key in API & account.",
+  "screenApiAccount": "API & account",
+  "geminiApiKeyTitle": "Gemini API key",
+  "geminiApiKeyDescription": "Saved automatically to your app data folder as you type (and when you leave this field). It is not embedded in the app bundle.",
+  "apiKeyHint": "GEMINI_API_KEY",
+  "showKey": "Show key",
+  "hideKey": "Hide key",
+  "lastSavedAt": "Last saved: {time}",
+  "@lastSavedAt": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+  "apiKeySaved": "API key saved",
+  "saveNow": "Save now",
+  "storagePath": "Storage path",
+  "screenOutputGallery": "Output Review Gallery",
+  "outputItemCount": "{count, plural, =1{1 item} other{{count} items}}",
+  "@outputItemCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "processedLabel": "processed",
+  "filterAll": "All",
+  "filterApproved": "Approved",
+  "filterNeedsEdit": "Needs Edit",
+  "filterRejected": "Rejected",
+  "filterUnreviewed": "Unreviewed",
+  "tooltipSelectAll": "Select all",
+  "tooltipDeselectAll": "Deselect all",
+  "tooltipRefresh": "Refresh",
+  "noImagesInView": "No images in this view.",
+  "itemsSelected": "{count, plural, =1{1 item selected} other{{count} items selected}}",
+  "@itemsSelected": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "rejectSelected": "Reject Selected",
+  "approveSelected": "Approve Selected",
+  "screenBatchDashboard": "Batch Dashboard",
+  "metricEta": "ETA",
+  "emDash": "—",
+  "metricThroughput": "Throughput",
+  "perMinute": "/min",
+  "metricSuccessRate": "Success Rate",
+  "imagesProgressNone": "{done} images",
+  "@imagesProgressNone": {
+    "placeholders": {
+      "done": {"type": "int"}
+    }
+  },
+  "imagesProgressTotal": "{done} / {total} images",
+  "@imagesProgressTotal": {
+    "placeholders": {
+      "done": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "geminiActiveLabel": "{count} Gemini",
+  "@geminiActiveLabel": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "cleanupActiveLabel": "{count} Cleanup",
+  "@cleanupActiveLabel": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "backoffSeconds": "Backoff: {seconds}s",
+  "@backoffSeconds": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  },
+  "workersActiveLabel": "{active}/{total} Workers Active",
+  "@workersActiveLabel": {
+    "placeholders": {
+      "active": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "rateLimitWaiting": "Rate limit — waiting",
+  "gridFilename": "FILENAME",
+  "gridGemini": "GEMINI",
+  "gridCleanup": "CLEANUP",
+  "gridLatency": "LATENCY",
+  "gridActions": "ACTIONS",
+  "logs": "Logs",
+  "retry": "Retry",
+  "logsForFile": "Logs — {fileName}",
+  "@logsForFile": {
+    "placeholders": {
+      "fileName": {"type": "String"}
+    }
+  },
+  "noLogEntriesForFile": "No log entries for this file.",
+  "emptyWaitingFirstImage": "Waiting for first image...",
+  "emptyNoActiveRun": "No active run",
+  "emptyWaitingFirstImageSub": "Images will appear here as they are processed.",
+  "emptyNoActiveRunSub": "Run a pipeline from Pipeline Settings to begin. If the input folder has files but this list is empty, they are skipped until you mark them needs edit or rejected in the Output Gallery (see _pipeline_image_state.json).",
+  "failuresHeading": "Failures",
+  "errorGroupSafetyFilter": "Safety Filter",
+  "errorGroupRateLimit": "Rate Limit",
+  "errorGroupApiError": "API Error",
+  "retryAllFailed": "Retry All Failed",
+  "openOutputFolder": "Open Output Folder",
+  "workersLabel": "Workers",
+  "takesEffectNextRetry": "Takes effect on next retry",
+  "consoleHeading": "Console",
+  "consoleErrorCount": "{count, plural, =1{1 error} other{{count} errors}}",
+  "@consoleErrorCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "noOutputYet": "No output yet.",
+  "batchComplete": "Batch Complete",
+  "batchCompleteSubtitle": "{done} / {total} images processed{durationPart}",
+  "@batchCompleteSubtitle": {
+    "placeholders": {
+      "done": {"type": "int"},
+      "total": {"type": "int"},
+      "durationPart": {"type": "String"}
+    }
+  },
+  "durationPartIn": " in {duration}",
+  "@durationPartIn": {
+    "placeholders": {
+      "duration": {"type": "String"}
+    }
+  },
+  "spaceSaved": "Space saved: {size}",
+  "@spaceSaved": {
+    "placeholders": {
+      "size": {"type": "String"}
+    }
+  },
+  "startNewBatch": "Start New Batch",
+  "durationHm": "{hours}h {minutes}m",
+  "@durationHm": {
+    "placeholders": {
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"}
+    }
+  },
+  "durationMs": "{minutes}m {seconds}s",
+  "@durationMs": {
+    "placeholders": {
+      "minutes": {"type": "int"},
+      "seconds": {"type": "int"}
+    }
+  },
+  "durationS": "{seconds}s",
+  "@durationS": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  },
+  "durationHms": "{hours}h {minutes}m {seconds}s",
+  "@durationHms": {
+    "placeholders": {
+      "hours": {"type": "int"},
+      "minutes": {"type": "int"},
+      "seconds": {"type": "int"}
+    }
+  }
+}

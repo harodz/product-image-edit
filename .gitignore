@@ -9,10 +9,21 @@ wheels/
 # Virtual environments
 .venv
 
-# Secrets
+# Secrets — never commit (CI also blocks .env* except .env.example)
 .env
+.env.*
+!.env.example
+flutter_app/.env
+*.pem
+*.p12
+*credentials*.json
+service-account*.json
+google-services.json
+GoogleService-Info.plist
 
 # Local input/output and OS junk
 1/
 product_output/
+output/
+_failed/
 .DS_Store

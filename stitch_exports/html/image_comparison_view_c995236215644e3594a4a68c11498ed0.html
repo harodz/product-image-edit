@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detailed Comparison View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#a7c8ff",
+              "primary-fixed-dim": "#bed5ff",
+              "surface-container-high": "#1b2029",
+              "on-tertiary-container": "#005a3c",
+              "surface-container-lowest": "#000000",
+              "tertiary-dim": "#58e7ab",
+              "error-container": "#7f2927",
+              "secondary-fixed": "#e1e0ff",
+              "secondary-dim": "#9093ff",
+              "on-tertiary-fixed": "#00452d",
+              "tertiary-fixed-dim": "#58e7ab",
+              "surface-container-low": "#111319",
+              "inverse-surface": "#f9f9ff",
+              "surface-container-highest": "#202631",
+              "secondary": "#9093ff",
+              "on-secondary": "#080079",
+              "error-dim": "#bb5551",
+              "on-surface": "#e0e5f5",
+              "tertiary-container": "#69f6b8",
+              "surface-bright": "#252c39",
+              "surface-variant": "#202631",
+              "tertiary-fixed": "#69f6b8",
+              "on-primary-fixed": "#003f7b",
+              "on-background": "#e0e5f5",
+              "primary": "#a7c8ff",
+              "primary-container": "#004788",
+              "on-primary-fixed-variant": "#005bad",
+              "inverse-on-surface": "#53555a",
+              "on-surface-variant": "#a5abb9",
+              "primary-dim": "#8fbaff",
+              "on-error": "#490106",
+              "inverse-primary": "#005fb3",
+              "on-primary-container": "#b8d1ff",
+              "on-tertiary": "#006443",
+              "tertiary": "#9bffce",
+              "on-primary": "#00407d",
+              "error": "#ee7d77",
+              "secondary-fixed-dim": "#d1d0ff",
+              "surface-dim": "#0c0e12",
+              "outline-variant": "#424854",
+              "surface": "#0c0e12",
+              "primary-fixed": "#d5e3ff",
+              "secondary-container": "#201cb4",
+              "on-tertiary-fixed-variant": "#006544",
+              "on-secondary-fixed-variant": "#4647d3",
+              "on-error-container": "#ff9993",
+              "outline": "#6f7683",
+              "surface-container": "#161a21",
+              "on-secondary-fixed": "#2622b7",
+              "background": "#0c0e12",
+              "on-secondary-container": "#b8b9ff"
+            },
+            borderRadius: {
+              "DEFAULT": "0.125rem",
+              "lg": "0.25rem",
+              "xl": "0.5rem",
+              "full": "0.75rem"
+            },
+            fontFamily: {
+              "headline": ["Inter", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[style*="'FILL' 1"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body h-screen flex flex-col overflow-hidden">
+<!-- Minimal Header (Back-to-Main Exception) -->
+<header class="flex items-center justify-between px-6 py-4 bg-surface-container-low shrink-0">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer group">
+<span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform" data-icon="arrow_back">arrow_back</span>
+<span class="font-label text-sm uppercase tracking-[0.05em] font-medium mt-0.5">Back to Batch</span>
+</button>
+<!-- Batch Navigation -->
+<div class="flex items-center gap-4 bg-surface-container rounded-full px-4 py-1.5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
+<button class="text-on-surface-variant hover:text-on-surface transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<span class="font-label text-xs uppercase tracking-[0.05em] text-on-surface font-medium">Image 4 of 24</span>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-error transition-colors px-3 py-1.5 rounded-md">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+<button class="flex items-center gap-2 bg-transparent text-primary hover:bg-surface-bright px-4 py-2 rounded-md font-medium text-sm transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="download">download</span>
+                Export Single
+            </button>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col px-8 py-6 gap-6 overflow-hidden">
+<!-- Header Info -->
+<div class="flex items-end justify-between shrink-0">
+<div>
+<h1 class="font-headline text-[1.5rem] leading-tight tracking-[-0.02em] font-semibold text-on-surface">
+                    product_shoe_nike_air_max_raw.cr2
+                </h1>
+<p class="text-on-surface-variant text-sm mt-1">Uploaded 12 mins ago • Batch: FW24_Catalog_Shoot</p>
+</div>
+<!-- Status Badge -->
+<div class="flex items-center gap-2 bg-tertiary/10 text-tertiary px-3 py-1.5 rounded-full shadow-[inset_0_-2px_0_0_rgba(155,255,206,0.2)]">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label text-[0.75rem] uppercase tracking-[0.05em] font-bold mt-0.5">Completed</span>
+</div>
+</div>
+<!-- Split Screen View -->
+<div class="flex-1 grid grid-cols-2 gap-8 min-h-0">
+<!-- Input (Left) -->
+<div class="flex flex-col gap-3 h-full">
+<div class="flex items-center justify-between">
+<span class="font-label text-sm uppercase tracking-[0.05em] text-on-surface-variant font-medium">Input (Original)</span>
+<span class="text-on-surface-variant text-xs font-mono bg-surface-container px-2 py-1 rounded">24.5 MB</span>
+</div>
+<!-- Image Container with 'Recessed' look -->
+<div class="flex-1 bg-surface-container-lowest rounded-xl overflow-hidden relative shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] flex items-center justify-center p-4">
+<img alt="Input image" class="max-w-full max-h-full object-contain rounded-sm" data-alt="red nike athletic shoe sitting on dark textured grey studio background with dramatic side lighting and soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDB1O1pyvtwXg5WiNF5e0V_EIZmir31Q65rivtVUUlgv-12B0hlvsTvJKbNWXjGBBc9KNfRw-HnbmsROnTlmfUn0Bd2lVess6oRUPrl3fJpHBm0mI0JUhECHGRQNncdGI3WYZfxUB_R7ez11enePC6U2GIUHC5V1WpSSpNpVVoT9azqx4K7lHjEt4dSeH9UUJ4py7vmLVoCgrD3iwFwMD7o4xvr3MdUdDg2D4z7vTh25eLxeDjr0e8xyIyWq1DNsaQv3OEFxeVcA_A"/>
+</div>
+</div>
+<!-- Output (Right) -->
+<div class="flex flex-col gap-3 h-full">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="font-label text-sm uppercase tracking-[0.05em] text-primary font-medium">Output (Processed)</span>
+</div>
+<span class="text-on-surface-variant text-xs font-mono bg-surface-container px-2 py-1 rounded">3.2 MB (WebP)</span>
+</div>
+<!-- Image Container with 'Recessed' look -->
+<div class="flex-1 bg-white rounded-xl overflow-hidden relative shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] flex items-center justify-center p-4 group">
+<!-- Checkerboard pattern for transparency indication, though prompt says 'clean white background', white bg is default here -->
+<img alt="Output image" class="max-w-full max-h-full object-contain drop-shadow-xl" data-alt="isolated red nike athletic shoe on a pure clean white background with perfect studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARxCda-1CH5czLjOfDzNeTnzB8yb1wTRK3H3VU9gg52z30iH8STX4jD2qEfktEYpJxk1CeH1p8CuMBS0mtNfi1QYxxgxMQWcZzfbkAhegis3oiyHABdHszzBLDqZ11HQUPkStKnHJ6QZTFwbIZ9CcozYwiXJTfMSJ_D53dIO2oUFRKo24QfVshfbtNCwFFcZEtvEF0yB4PS8uwpBH-FKrEJb6q0UlINFOkYICkxnT1ivPife8A0PQu-5nWkNQqtQz7ksY9ZHo3sZg" style="mix-blend-mode: multiply;"/> <!-- Fake BG removal for visual effect in prototype -->
+<!-- Inspect Overlay (Hover) -->
+<div class="absolute inset-0 bg-surface-bright/40 backdrop-blur-[12px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+<div class="bg-surface-container-highest text-on-surface px-4 py-2 rounded-full font-label text-sm uppercase tracking-widest shadow-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="search">search</span> Click to pan/zoom
+                        </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Panel: Metadata & Controls -->
+<div class="grid grid-cols-[1fr_1.5fr] gap-8 bg-surface-container-low p-6 rounded-xl shrink-0">
+<!-- Metadata Area -->
+<div class="flex flex-col gap-4">
+<h3 class="font-label text-xs uppercase tracking-[0.05em] text-on-surface-variant font-bold border-b border-surface-container-high pb-2">Image Metadata</h3>
+<div class="grid grid-cols-2 gap-y-4 gap-x-4">
+<div>
+<div class="font-label text-[0.65rem] uppercase text-on-surface-variant tracking-widest mb-1">Resolution</div>
+<div class="text-on-surface text-sm font-mono">6000 x 4000</div>
+</div>
+<div>
+<div class="font-label text-[0.65rem] uppercase text-on-surface-variant tracking-widest mb-1">Color Space</div>
+<div class="text-on-surface text-sm font-mono">sRGB IEC61966-2.1</div>
+</div>
+<div>
+<div class="font-label text-[0.65rem] uppercase text-on-surface-variant tracking-widest mb-1">Model Used</div>
+<div class="text-on-surface text-sm font-mono">Erase_HQ_v4.2</div>
+</div>
+<div>
+<div class="font-label text-[0.65rem] uppercase text-on-surface-variant tracking-widest mb-1">Processing Time</div>
+<div class="text-on-surface text-sm font-mono">1.4s</div>
+</div>
+</div>
+</div>
+<!-- Reprocess Area -->
+<div class="flex flex-col gap-4 border-l border-surface-container-high pl-8">
+<h3 class="font-label text-xs uppercase tracking-[0.05em] text-on-surface-variant font-bold border-b border-surface-container-high pb-2">Refinement Controls</h3>
+<div class="flex flex-col gap-2">
+<label class="font-label text-[0.7rem] uppercase text-on-surface-variant tracking-widest">Prompt Override</label>
+<div class="flex items-end gap-4">
+<!-- Custom Input matching Design System specs -->
+<div class="relative flex-1 group">
+<input class="w-full bg-surface-container text-on-surface text-sm rounded-DEFAULT px-4 py-2.5 border-0 border-b-2 border-transparent focus:ring-0 focus:border-primary focus:bg-surface-container-high transition-colors placeholder:text-outline peer" placeholder="e.g., Retain natural floor shadows, remove background only..." type="text"/>
+<div class="absolute bottom-0 left-0 w-full h-[2px] bg-primary scale-x-0 group-focus-within:scale-x-100 transition-transform origin-left pointer-events-none"></div>
+</div>
+<!-- Primary CTA Button -->
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary-container h-[40px] px-6 rounded-md font-medium text-sm hover:brightness-110 transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-[0_4px_14px_rgba(0,71,136,0.2)]">
+<span class="material-symbols-outlined text-[18px]" data-icon="auto_awesome">auto_awesome</span>
+                            Reprocess Image
+                        </button>
+</div>
+</div>
+<div class="flex items-center gap-6 mt-1">
+<label class="flex items-center gap-2 cursor-pointer group">
+<div class="relative w-4 h-4 flex items-center justify-center">
+<input class="peer appearance-none w-4 h-4 bg-surface-container border border-outline-variant rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 transition-colors" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-[12px] text-on-secondary opacity-0 peer-checked:opacity-100 pointer-events-none" data-icon="check">check</span>
+</div>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Upscale 2x</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<div class="relative w-4 h-4 flex items-center justify-center">
+<input checked="" class="peer appearance-none w-4 h-4 bg-surface-container border border-outline-variant rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 transition-colors" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-[12px] text-on-secondary opacity-0 peer-checked:opacity-100 pointer-events-none" data-icon="check">check</span>
+</div>
+<span class="text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Auto-Crop to Subject</span>
+</label>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ff9993",
+                        "background": "#0c0e12",
+                        "tertiary-container": "#69f6b8",
+                        "on-tertiary-fixed-variant": "#006544",
+                        "surface-bright": "#252c39",
+                        "on-secondary": "#080079",
+                        "secondary-container": "#201cb4",
+                        "on-background": "#e0e5f5",
+                        "tertiary-dim": "#58e7ab",
+                        "error-container": "#7f2927",
+                        "tertiary": "#9bffce",
+                        "on-secondary-fixed-variant": "#4647d3",
+                        "secondary-fixed-dim": "#d1d0ff",
+                        "surface-container-lowest": "#000000",
+                        "error-dim": "#bb5551",
+                        "tertiary-fixed": "#69f6b8",
+                        "surface": "#0c0e12",
+                        "surface-container-high": "#1b2029",
+                        "surface-dim": "#0c0e12",
+                        "primary-fixed-dim": "#bed5ff",
+                        "on-error": "#490106",
+                        "on-secondary-fixed": "#2622b7",
+                        "on-primary-container": "#b8d1ff",
+                        "tertiary-fixed-dim": "#58e7ab",
+                        "secondary-fixed": "#e1e0ff",
+                        "outline": "#6f7683",
+                        "secondary-dim": "#9093ff",
+                        "on-surface-variant": "#a5abb9",
+                        "surface-container-low": "#111319",
+                        "on-primary-fixed-variant": "#005bad",
+                        "on-tertiary-container": "#005a3c",
+                        "on-tertiary": "#006443",
+                        "on-secondary-container": "#b8b9ff",
+                        "on-primary": "#00407d",
+                        "surface-tint": "#a7c8ff",
+                        "inverse-surface": "#f9f9ff",
+                        "surface-container-highest": "#202631",
+                        "inverse-on-surface": "#53555a",
+                        "primary-container": "#004788",
+                        "surface-variant": "#202631",
+                        "on-primary-fixed": "#003f7b",
+                        "inverse-primary": "#005fb3",
+                        "secondary": "#9093ff",
+                        "outline-variant": "#424854",
+                        "error": "#ee7d77",
+                        "on-tertiary-fixed": "#00452d",
+                        "primary-dim": "#8fbaff",
+                        "primary-fixed": "#d5e3ff",
+                        "primary": "#a7c8ff",
+                        "surface-container": "#161a21",
+                        "on-surface": "#e0e5f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(37, 44, 57, 0.6);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #a7c8ff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: #a7c8ff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body antialiased selection:bg-primary/30">
+<!-- SideNavBar (Execution from JSON) -->
+<aside class="fixed left-0 top-0 bottom-0 z-50 h-screen w-64 flex flex-col bg-[#161a21] border-none font-inter text-sm antialiased tracking-tight shadow-none">
+<div class="p-6">
+<h1 class="text-xl font-bold tracking-tighter text-[#e0e5f5] mb-1">Observational Command</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">Pro Workspace</p>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center px-3 py-2.5 text-[#a5abb9] hover:text-[#e0e5f5] hover:bg-[#202631] transition-colors duration-200 rounded-lg group active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="edit">edit</span>
+<span>Editor</span>
+</a>
+<a class="flex items-center px-3 py-2.5 text-[#a5abb9] hover:text-[#e0e5f5] hover:bg-[#202631] transition-colors duration-200 rounded-lg group active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="history">history</span>
+<span>Job History</span>
+</a>
+<a class="flex items-center px-3 py-2.5 text-[#a5abb9] hover:text-[#e0e5f5] hover:bg-[#202631] transition-colors duration-200 rounded-lg group active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="database">database</span>
+<span>Assets</span>
+</a>
+<a class="flex items-center px-3 py-2.5 text-[#a7c8ff] font-semibold border-r-2 border-[#a7c8ff] bg-[#202631] transition-colors duration-200 group active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="settings">settings</span>
+<span>API Settings</span>
+</a>
+<a class="flex items-center px-3 py-2.5 text-[#a5abb9] hover:text-[#e0e5f5] hover:bg-[#202631] transition-colors duration-200 rounded-lg group active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="description">description</span>
+<span>Documentation</span>
+</a>
+</nav>
+<div class="p-4 mt-auto">
+<button class="w-full py-2.5 bg-gradient-to-br from-primary to-primary-container text-on-primary font-semibold rounded-md shadow-lg active:scale-95 transition-transform">
+                New Editing Job
+            </button>
+</div>
+<div class="px-3 py-4 border-t border-white/5 space-y-1">
+<a class="flex items-center px-3 py-2 text-[#a5abb9] hover:text-[#e0e5f5] text-xs uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mr-3 text-base" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center px-3 py-2 text-[#a5abb9] hover:text-[#e0e5f5] text-xs uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined mr-3 text-base" data-icon="person">person</span>
+<span>Account</span>
+</a>
+</div>
+</aside>
+<!-- TopNavBar (Execution from JSON) -->
+<header class="fixed top-0 right-0 left-64 h-16 flex justify-between items-center px-8 z-40 bg-[#0c0e12]/80 backdrop-blur-xl border-none shadow-[0_40px_40px_-15px_rgba(143,186,255,0.08)]">
+<div class="flex items-center gap-8">
+<span class="text-lg font-black text-[#e0e5f5] tracking-tight">Image Editor</span>
+<div class="flex items-center bg-surface-container-low px-4 py-1.5 rounded-full border border-outline-variant/10">
+<span class="material-symbols-outlined text-on-surface-variant text-sm mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm text-on-surface p-0 w-48" placeholder="Search parameters..." type="text"/>
+</div>
+</div>
+<nav class="flex items-center gap-6">
+<a class="font-inter text-label-md uppercase tracking-wider text-[#a5abb9] hover:text-[#e0e5f5] transition-opacity" href="#">Dashboard</a>
+<a class="font-inter text-label-md uppercase tracking-wider text-[#a5abb9] hover:text-[#e0e5f5] transition-opacity" href="#">Queue</a>
+<a class="font-inter text-label-md uppercase tracking-wider text-[#a5abb9] hover:text-[#e0e5f5] transition-opacity" href="#">Analytics</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 mr-4">
+<button class="p-2 text-[#a5abb9] hover:text-[#e0e5f5] transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-tertiary hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="cloud_done">cloud_done</span>
+</button>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#a5abb9] border border-outline-variant/20 rounded hover:bg-surface-bright transition-colors">Pause Queue</button>
+<button class="px-4 py-1.5 text-xs font-bold uppercase tracking-widest bg-primary text-on-primary rounded hover:opacity-90 transition-opacity">Export All</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen bg-surface">
+<div class="max-w-6xl mx-auto p-12">
+<!-- Header Section -->
+<div class="mb-12">
+<h2 class="text-display-md font-extrabold tracking-tighter text-on-surface mb-2">API &amp; Pipeline Settings</h2>
+<p class="text-on-surface-variant text-body-md max-w-2xl">Configure your neural backbone and execution parameters. Changes are applied instantly to the active processing queue.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Authentication Card -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container rounded-xl p-8 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary" data-icon="vpn_key">vpn_key</span>
+<h3 class="text-title-lg font-semibold uppercase tracking-widest text-sm text-on-surface-variant">Core Authentication</h3>
+</div>
+<div class="space-y-6">
+<div class="group/input">
+<label class="block text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-2 group-focus-within/input:text-primary transition-colors">GEMINI_API_KEY</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-lg p-4 font-mono text-sm tracking-widest text-on-surface placeholder-outline transition-all" placeholder="Enter your API key" type="password" value="••••••••••••••••••••••••••••••"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-xl" data-icon="visibility">visibility</span>
+</button>
+</div>
+<p class="mt-2 text-xs text-on-surface-variant/60 italic">Stored encrypted in your local vault.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Model Selection Card -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container rounded-xl p-8 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="neurology">neurology</span>
+<h3 class="text-title-lg font-semibold uppercase tracking-widest text-sm text-on-surface-variant">Neural Model</h3>
+</div>
+<div class="space-y-4">
+<label class="block text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-2">Primary Inference Engine</label>
+<div class="space-y-2">
+<label class="flex items-center p-4 bg-surface-container-highest rounded-lg cursor-pointer border border-transparent hover:border-primary/30 transition-all active:scale-[0.98]">
+<input checked="" class="w-4 h-4 text-secondary bg-surface-container focus:ring-0 focus:ring-offset-0 border-outline-variant" name="model" type="radio"/>
+<div class="ml-4">
+<span class="block text-sm font-bold">Nano Banana 2</span>
+<span class="block text-[10px] text-tertiary uppercase tracking-tighter">Recommended · High Accuracy</span>
+</div>
+</label>
+<label class="flex items-center p-4 bg-surface-container-low rounded-lg cursor-pointer border border-transparent hover:border-outline-variant transition-all active:scale-[0.98]">
+<input class="w-4 h-4 text-secondary bg-surface-container focus:ring-0 focus:ring-offset-0 border-outline-variant" name="model" type="radio"/>
+<div class="ml-4">
+<span class="block text-sm font-bold">Nano Banana</span>
+<span class="block text-[10px] text-on-surface-variant uppercase tracking-tighter">Legacy · Fast Inference</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Execution Parameters Card -->
+<div class="col-span-12 lg:col-span-12 bg-surface-container-high rounded-xl p-8">
+<div class="flex items-center gap-3 mb-10">
+<span class="material-symbols-outlined text-tertiary" data-icon="bolt">bolt</span>
+<h3 class="text-title-lg font-semibold uppercase tracking-widest text-sm text-on-surface-variant">Execution Parameters</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+<!-- Slider Column -->
+<div class="space-y-6">
+<div>
+<div class="flex justify-between items-end mb-4">
+<label class="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant">--workers</label>
+<span class="text-primary font-mono font-bold text-lg">16</span>
+</div>
+<input class="w-full h-1.5 bg-surface-container-low rounded-lg appearance-none cursor-pointer" max="64" min="1" type="range" value="16"/>
+<div class="flex justify-between mt-2 text-[10px] text-on-surface-variant/40 font-mono">
+<span>1 JOB</span>
+<span>64 JOBS (MAX)</span>
+</div>
+<p class="mt-4 text-xs text-on-surface-variant leading-relaxed">Parallelize editing jobs across virtual cores. High values increase throughput but require stable bandwidth.</p>
+</div>
+</div>
+<!-- Retries Column -->
+<div class="space-y-6">
+<div class="group/input">
+<label class="block text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-4">--max-api-retries</label>
+<div class="flex items-center bg-surface-container-low rounded-lg p-1 border border-outline-variant/10">
+<button class="p-3 text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+<input class="w-full bg-transparent border-none text-center font-mono font-bold text-lg focus:ring-0 p-0" type="text" value="3"/>
+<button class="p-3 text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+<p class="mt-4 text-xs text-on-surface-variant leading-relaxed">Maximum attempts per packet before flagging a failure in the activity log.</p>
+</div>
+</div>
+<!-- Toggles Column -->
+<div class="space-y-4">
+<label class="flex items-center justify-between p-4 bg-surface-container-low rounded-lg group cursor-pointer hover:bg-surface-bright transition-colors">
+<div class="flex flex-col">
+<span class="text-sm font-bold group-hover:text-primary transition-colors">--keep-raw</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Preserve original buffers</span>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface-variant after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</div>
+</label>
+<label class="flex items-center justify-between p-4 bg-surface-container-low rounded-lg group cursor-pointer hover:bg-surface-bright transition-colors">
+<div class="flex flex-col">
+<span class="text-sm font-bold group-hover:text-error transition-colors">--fail-fast</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Abort on first error</span>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface-variant after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-error"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Save Action (Asymmetric Placement) -->
+<div class="col-span-12 flex justify-end items-center gap-8 py-6">
+<div class="text-right">
+<p class="text-[10px] font-black uppercase tracking-[0.2em] text-tertiary">All systems operational</p>
+<p class="text-xs text-on-surface-variant">Last synced: Today, 14:22:01</p>
+</div>
+<button class="px-10 py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-black uppercase tracking-[0.2em] rounded-md shadow-[0_10px_20px_-5px_rgba(167,200,255,0.3)] hover:scale-[1.02] active:scale-95 transition-all">
+                        Save Configuration
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual Glass Overlay (Visual Flourish) -->
+<div class="fixed bottom-8 right-8 p-6 glass-panel rounded-xl flex items-center gap-4 max-w-xs shadow-2xl pointer-events-none">
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-primary/20">
+<img class="w-full h-full object-cover" data-alt="abstract close-up of a digital neural network visualizing glowing blue data streams and connections on a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuv_R3nJ6F2jD0tvhl0Ne4i6Jkem_NIsRIQ6oOmLjH38sA59eIDiKpdFUdNTZF1YEv0Wna76GIzPVFCpJvabVOBjvHQ5C3Su1it0F170zVKRfW3HGm4GZ5GT07EVdHIbZdGyvi-dKXkdHg0STGpoyNK6TLg4UvgGQM5MWwwubVR4CKJtd3-wb0UhpC0Ol0SbQcoJbGhPTBJxJyvtpBWNEd1YGt-Iar-6xl7uiI3nOFfGQ20bMfPZjfat4N90lx9jy3WWYdSE7t66w"/>
+</div>
+<div>
+<h4 class="text-xs font-bold text-on-surface">Auto-Optimization</h4>
+<p class="text-[10px] text-on-surface-variant">Predictive scaling is currently active based on local GPU thermal load.</p>
+</div>
+</div>
+</body></html>

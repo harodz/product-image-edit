@@ -1,0 +1,46 @@
+{
+  "projectId": "1862088916126695377",
+  "screens": [
+    {
+      "id": "1d80a2992dde45e6b00cc34ebd7517d9",
+      "title": "Batch Processing Dashboard",
+      "screenshotFile": "screenshots/batch_processing_dashboard_1d80a2992dde45e6b00cc34ebd7517d9.png",
+      "htmlFile": "html/batch_processing_dashboard_1d80a2992dde45e6b00cc34ebd7517d9.html"
+    },
+    {
+      "id": "cc6e2945f9c0456b82ca67cc64072c82",
+      "title": "Pipeline Settings",
+      "screenshotFile": "screenshots/pipeline_settings_cc6e2945f9c0456b82ca67cc64072c82.png",
+      "htmlFile": "html/pipeline_settings_cc6e2945f9c0456b82ca67cc64072c82.html"
+    },
+    {
+      "id": "d8fb87839e044afe809d1ff47c947aef",
+      "title": "Output Review Gallery",
+      "screenshotFile": "screenshots/output_review_gallery_d8fb87839e044afe809d1ff47c947aef.png",
+      "htmlFile": "html/output_review_gallery_d8fb87839e044afe809d1ff47c947aef.html"
+    },
+    {
+      "id": "c995236215644e3594a4a68c11498ed0",
+      "title": "Image Comparison View",
+      "screenshotFile": "screenshots/image_comparison_view_c995236215644e3594a4a68c11498ed0.png",
+      "htmlFile": "html/image_comparison_view_c995236215644e3594a4a68c11498ed0.html"
+    },
+    {
+      "id": "71e6ee4138384666bb43e2d9172d372f",
+      "title": "Image Comparison View",
+      "screenshotFile": "screenshots/image_comparison_view_71e6ee4138384666bb43e2d9172d372f.png",
+      "htmlFile": "html/image_comparison_view_71e6ee4138384666bb43e2d9172d372f.html"
+    },
+    {
+      "id": "ea6877e3016d47f4a3659e7628a6f0fa",
+      "title": "Image Comparison View",
+      "screenshotFile": "screenshots/image_comparison_view_ea6877e3016d47f4a3659e7628a6f0fa.png",
+      "htmlFile": "html/image_comparison_view_ea6877e3016d47f4a3659e7628a6f0fa.html"
+    },
+    {
+      "id": "05fa81596e9e427da9f5c57ce0e87a2b",
+      "title": "Product Requirements Document",
+      "docFile": "docs/product_requirements_document_05fa81596e9e427da9f5c57ce0e87a2b.html"
+    }
+  ]
+}

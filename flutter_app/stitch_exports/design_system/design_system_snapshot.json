@@ -1,0 +1,37 @@
+{
+  "projectId": "1862088916126695377",
+  "designSystemAssetId": "assets/6a3e97f767af4d18b2988501878cc21e",
+  "displayName": "Obsidian Flux",
+  "theme": {
+    "colorMode": "DARK",
+    "headlineFont": "INTER",
+    "bodyFont": "INTER",
+    "labelFont": "INTER",
+    "roundness": "ROUND_FOUR",
+    "customColor": "#007AFF",
+    "colorVariant": "NEUTRAL",
+    "overridePrimaryColor": "#2E90FF",
+    "overrideSecondaryColor": "#6366F1",
+    "overrideTertiaryColor": "#10B981",
+    "overrideNeutralColor": "#0F1115",
+    "spacingScale": 1,
+    "namedColors": {
+      "background": "#0c0e12",
+      "on_background": "#e0e5f5",
+      "primary": "#a7c8ff",
+      "on_primary": "#00407d",
+      "secondary": "#9093ff",
+      "tertiary": "#9bffce",
+      "surface": "#0c0e12",
+      "surface_container": "#161a21",
+      "surface_container_high": "#1b2029",
+      "surface_container_highest": "#202631",
+      "surface_container_low": "#111319",
+      "surface_container_lowest": "#000000",
+      "surface_variant": "#202631",
+      "outline": "#6f7683",
+      "outline_variant": "#424854",
+      "error": "#ee7d77"
+    }
+  }
+}

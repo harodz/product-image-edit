@@ -1,0 +1,40 @@
+{
+  "projectId": "1862088916126695377",
+  "assetId": "6a3e97f767af4d18b2988501878cc21e",
+  "name": "Obsidian Flux",
+  "typography": {
+    "fontFamily": "Inter",
+    "headlineFont": "INTER",
+    "bodyFont": "INTER",
+    "labelFont": "INTER"
+  },
+  "shape": {
+    "roundness": "ROUND_FOUR",
+    "radius": 12
+  },
+  "spacing": {
+    "scale": 1,
+    "xs": 8,
+    "sm": 12,
+    "md": 16,
+    "lg": 24,
+    "xl": 32
+  },
+  "colors": {
+    "background": "#0c0e12",
+    "onBackground": "#e0e5f5",
+    "primary": "#a7c8ff",
+    "primaryContainer": "#004788",
+    "secondary": "#9093ff",
+    "tertiary": "#9bffce",
+    "error": "#ee7d77",
+    "surface": "#0c0e12",
+    "surfaceLow": "#111319",
+    "surfaceContainer": "#161a21",
+    "surfaceHigh": "#1b2029",
+    "surfaceHighest": "#202631",
+    "outline": "#6f7683",
+    "outlineVariant": "#424854",
+    "success": "#10b981"
+  }
+}

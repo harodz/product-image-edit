@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Visionary Editor - Output Gallery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#005a3c",
+                    "on-primary": "#00407d",
+                    "on-tertiary-fixed": "#00452d",
+                    "outline-variant": "#424854",
+                    "on-error-container": "#ff9993",
+                    "inverse-surface": "#f9f9ff",
+                    "secondary-container": "#201cb4",
+                    "error": "#ee7d77",
+                    "secondary-dim": "#9093ff",
+                    "outline": "#6f7683",
+                    "on-secondary-container": "#b8b9ff",
+                    "on-error": "#490106",
+                    "surface": "#0c0e12",
+                    "surface-container": "#161a21",
+                    "on-tertiary-fixed-variant": "#006544",
+                    "primary-fixed": "#d5e3ff",
+                    "inverse-on-surface": "#53555a",
+                    "inverse-primary": "#005fb3",
+                    "tertiary": "#9bffce",
+                    "surface-container-high": "#1b2029",
+                    "background": "#0c0e12",
+                    "secondary-fixed-dim": "#d1d0ff",
+                    "error-dim": "#bb5551",
+                    "surface-container-lowest": "#000000",
+                    "secondary": "#9093ff",
+                    "primary-fixed-dim": "#bed5ff",
+                    "on-surface-variant": "#a5abb9",
+                    "on-secondary-fixed": "#2622b7",
+                    "surface-variant": "#202631",
+                    "on-tertiary": "#006443",
+                    "tertiary-fixed-dim": "#58e7ab",
+                    "on-background": "#e0e5f5",
+                    "secondary-fixed": "#e1e0ff",
+                    "on-surface": "#e0e5f5",
+                    "surface-container-highest": "#202631",
+                    "surface-tint": "#a7c8ff",
+                    "tertiary-container": "#69f6b8",
+                    "on-primary-container": "#b8d1ff",
+                    "tertiary-fixed": "#69f6b8",
+                    "surface-dim": "#0c0e12",
+                    "surface-bright": "#252c39",
+                    "primary-dim": "#8fbaff",
+                    "on-primary-fixed-variant": "#005bad",
+                    "on-secondary": "#080079",
+                    "error-container": "#7f2927",
+                    "on-secondary-fixed-variant": "#4647d3",
+                    "tertiary-dim": "#58e7ab",
+                    "on-primary-fixed": "#003f7b",
+                    "primary": "#a7c8ff",
+                    "surface-container-low": "#111319",
+                    "primary-container": "#004788"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #202631; border-radius: 10px; }
+        .gradient-cta {
+            background: linear-gradient(135deg, #a7c8ff 0%, #004788 100%);
+        }
+        .lens-shadow {
+            box-shadow: 0 0 40px rgba(143, 186, 255, 0.08);
+        }
+        .inner-glow {
+            box-shadow: inset 0 0 0 1px hsla(0,0%,100%,0.05);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="bg-slate-900 dark:bg-[#161a21] h-screen w-64 flex flex-col py-6 font-sans text-sm tracking-tight Inter">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-[#e0e5f5]">Visionary</h1>
+<p class="text-[10px] uppercase tracking-widest text-[#a5abb9]">Pro Workspace</p>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full py-2.5 rounded-lg gradient-cta text-on-primary font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity scale-95 active:duration-100">
+<span class="material-symbols-outlined text-sm">add</span>
+                    New Project
+                </button>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-[#a5abb9] hover:bg-[#202631] transition-colors group" href="#">
+<span class="material-symbols-outlined">edit</span>
+<span>Editor</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-[#a7c8ff] font-semibold border-r-2 border-[#a7c8ff] bg-[#202631] transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+<span>History</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-[#a5abb9] hover:bg-[#202631] transition-colors" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span>Assets</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-[#a5abb9] hover:bg-[#202631] transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-6 pt-6 border-t border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-bright flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a professional man with clean lighting and neutral background for user profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu-GBYIEXsB_8sp3KPEqz2LZn1q56IUyQlqtmRX49TohTFMQ0N0kuXLlAX1P-Q_obrzwxZxIAyr1jOxIpAZRWSNeYfcZROb0g_i0drXUkmntyWXRgI585VARlRv64vPlnaOb1PqD2xbWVgh_IE0AoG_hMSWggkvulkE9utufzWsVUVs0Ly1sQOrSGbGghP1h1tdkFPIo-_zsQFCRoyLFMNIVSm4vI_ANHqDT7Iaj9jS3xmvaysPtV_PZh-f9Usf3l5XuZqvNsJVIQ"/>
+</div>
+<div class="overflow-hidden">
+<p class="truncate font-medium text-[#e0e5f5]">Alex Rivera</p>
+<p class="text-xs text-[#a5abb9] truncate">Enterprise Plan</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-surface">
+<!-- TopNavBar -->
+<header class="w-full h-16 flex items-center justify-between px-8 bg-[#0c0e12] border-b-0">
+<div class="flex items-center gap-8">
+<span class="text-lg font-black tracking-tighter text-[#e0e5f5]">Visionary Editor</span>
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-sm">search</span>
+<input class="bg-surface-container-low border-none rounded-full py-1.5 pl-10 pr-4 text-xs w-64 focus:ring-1 focus:ring-primary-dim/30 placeholder:text-outline" placeholder="Search batch outputs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-[#a5abb9] text-sm font-sans Inter">
+<button class="hover:text-[#e0e5f5] transition-opacity opacity-80 hover:opacity-100">Gallery</button>
+<button class="text-[#a7c8ff] font-bold">Outputs</button>
+<button class="hover:text-[#e0e5f5] transition-opacity opacity-80 hover:opacity-100">Queue</button>
+</div>
+<div class="h-6 w-px bg-outline-variant/20 mx-2"></div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#a5abb9] hover:text-[#e0e5f5] transition-opacity">notifications</button>
+<button class="material-symbols-outlined text-[#a5abb9] hover:text-[#e0e5f5] transition-opacity">account_circle</button>
+<button class="ml-2 px-4 py-1.5 bg-surface-bright rounded text-primary text-xs font-bold hover:bg-surface-container-highest transition-colors">Export</button>
+</div>
+</div>
+</header>
+<!-- Control Bar -->
+<section class="px-8 py-4 bg-surface flex items-center justify-between">
+<div class="flex items-center gap-4">
+<h2 class="headline-sm font-bold tracking-tight text-on-surface">Batch Results <span class="text-on-surface-variant font-normal text-sm ml-2">128 items processed</span></h2>
+<div class="flex items-center gap-1 ml-4 bg-surface-container rounded-lg p-1">
+<button class="px-3 py-1 text-xs font-semibold rounded bg-surface-bright text-primary">All</button>
+<button class="px-3 py-1 text-xs font-semibold rounded text-on-surface-variant hover:text-on-surface">Recent</button>
+<button class="px-3 py-1 text-xs font-semibold rounded text-on-surface-variant hover:text-on-surface">Potential Failures</button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-3 py-1.5 text-xs text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm">select_all</span>
+                        Select All
+                    </button>
+<button class="flex items-center gap-2 px-3 py-1.5 text-xs text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm">deselect</span>
+                        Deselect All
+                    </button>
+<div class="w-px h-4 bg-outline-variant/30"></div>
+<button class="flex items-center gap-2 px-5 py-2 text-xs font-bold rounded-lg gradient-cta text-on-primary lens-shadow hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">refresh</span>
+                        Regenerate Selected (12)
+                    </button>
+</div>
+</section>
+<!-- Image Grid -->
+<div class="flex-1 overflow-y-auto px-8 pb-12 custom-scrollbar">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
+<!-- Card 1 -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow transition-all hover:ring-2 hover:ring-primary-dim/40 cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="clean product photography of a red nike sneaker on a pure white background with soft studio shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk9GY6c03T3-NtQFnwqTeGVX_Kh_-1p7CYWAnNfYzusXqBt5y1tZM4qOSbRDvsX6BnfrLLGlT_KdPmBuyIVEwpczfZGCH1f3f6sXh3o7BzOKMRftvvl3-6nUp27Yoez4D8SKCdMaaJ9bJ7JxAE39JmKXUCsDTLNI5IT6pCnTfazFNPAHaLbcVD_WLyjT3M5xM8fR9RXTqIZ79PefIfaC-gl1Uq_wdJxfM4gwBy3T28z5AfMolFpHeblVP8-tMli5fdupVLa2XMeDc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
+<p class="text-[10px] font-bold text-white uppercase tracking-wider mb-1">Success • 1.2MB</p>
+<p class="text-xs text-white/80">Batch_Item_001.png</p>
+</div>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2">
+<div class="w-6 h-6 rounded bg-black/40 backdrop-blur-md flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm">zoom_in</span>
+</div>
+<div class="w-6 h-6 rounded bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_box</span>
+</div>
+</div>
+</div>
+<!-- Card 2 (Selection State) -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow ring-2 ring-secondary transition-all cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="minimalist studio product shot of a high-end white digital watch on white background with crisp edges" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC45AJGK7A_FVuJjvsF8DgM-LCRaG_LzTtWKrsxnHkvrrv6Tid0bA1dvjFLbbVLNk3Q00p60k5bCR4hO9X7405Od4xxvu-cdtjU5c82xx7MSOP61CKig6e6Zg-lXTfOXALk7XuygPnjn0xq-WiSItXKyBvrWTU1N9y4l6zV9rSCQh0Ac9a6CEueV4M5FYCcheIThX-Gx_XIfGFW7WIKe3SRuDoWVh43olfSmLtDhSsdIJ8s1laylzy1gw6U9jzMp2JviPIjSsYMeKg"/>
+<div class="absolute inset-0 bg-secondary/10"></div>
+<div class="absolute top-3 right-3 flex flex-col gap-2">
+<div class="w-6 h-6 rounded bg-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary text-sm" style="font-variation-settings: 'FILL' 1;">check_box</span>
+</div>
+</div>
+</div>
+<!-- Card 3 (Failure State) -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow transition-all hover:ring-2 hover:ring-error-dim/40 cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-error"></div>
+<img class="w-full h-full object-cover opacity-60 grayscale group-hover:scale-110 transition-transform duration-500" data-alt="professional photography of wireless black headphones on white background with subtle motion blur artifacts" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeQzhb9O11d-tr_VgRUM65beegFKVLVx9qGR6gFhJonQTzYBEkWviuyTBcBIhEOZEePDZ98sBUX7UWi7emhPtJhdJ6qwOrAip6cYuxVCwZPqycFInqvMhCopVjKbAkiZlh3lO6Fva53y7KKoingouFnUJVZbty2EGpDUa6M37UNefEYWMQ1KK-tbPrOpI44R_qNQqGT20DjWtCjGAe3IbR7ARb4KYmpyAMMsccMpoLixby_w18zk1hi3KndbXWqVNJEcHe2-wLh5M"/>
+<div class="absolute inset-0 flex items-center justify-center bg-error-container/20">
+<div class="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-sm">warning</span>
+<span class="text-[10px] font-bold text-error uppercase tracking-widest">Low Confidence</span>
+</div>
+</div>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">check_box_outline_blank</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow transition-all hover:ring-2 hover:ring-primary-dim/40 cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="classic aviator sunglasses on white background with sharp shadows and reflective lenses, high-end commercial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnmYtNiZOFdDdJXvsPoQnnm1G3bwtWl80LrjxJl-b2AHh8grRtQ1-_yanIZlm25jbbJNTfngzx6Dyscyuc9sr6pdYyzusX0HaGjt6jo7NfjmLMzGFh5MQUl8PKDmLOxFw07xPAIZIfepIqgPg4rYClFgtE7bY2X2m_tuth3MOm482tg1vL0C_V0VofaujY19D7woFQsGrXzKT6Nu3RTDAhKLSr8WeyFM2UJ4MrajXU4IfnFrk8d-sUgKqajBsu-AXlxKuhnytUUlU"/>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">check_box_outline_blank</span>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow transition-all hover:ring-2 hover:ring-primary-dim/40 cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="yellow high-top sneaker on white background, vibrant color, commercial fashion photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrh9m-1MtqShAMZW95qUI3t6-yiuS3gAaT5-l6KEoh10HKoFoOB_oB5k7c8sj6S7vwIcX1LSGcwkAA-YAKPWJKkeM7ap9F40ZXDjKHAS5oYXlC4jLmlN4vHkJvsS1HZR1KGqE1Arblh5iJhUvtpfeecyLBTpjMOwmqZI6FFiwGIzZFg3oUqvYwn1Xo53WsNG_v9QXP5UP1STooOBNElVWM4UFLBfeW3K_w4izNXqQziisqf_ZQhoLpg4BH62LGNiwwmetoDrBWbcM"/>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">check_box_outline_blank</span>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow transition-all hover:ring-2 hover:ring-primary-dim/40 cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="vintage leather camera bag on white background with soft top-down lighting and detailed texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD805-PjDuMoXHlOEW4KUbxeIZEClp8U12m5eUbdp-09vQsqwMn3yOigUGDo9_po4W-BUnYXC-aI4g-nRdlJ4RCnBfz9w68pO9x4XvmGd3Mk_wsVAJuCqeYpzK9aEanPpF16HYLuVIE6H1VL_tUcLkV1iNZomAn9ivw8IDe3ur5XqkSr_-E-TJScFuZp4aBZh8d5mD5pZ_iqNPMtuw18Zc4jBZftDL2Q5ApvUFDVnilo2gvsW7fXN2YRp6AsqCKv9iEayvQbu1oV2U"/>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">check_box_outline_blank</span>
+</div>
+</div>
+</div>
+<!-- Card 7 -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow transition-all hover:ring-2 hover:ring-primary-dim/40 cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="minimalist wireless silver earbuds on white background with soft studio lighting and elegant profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx9AnwNtWL_uR_9IgunyH43J8Ya4O_FTEV8_BAgycPstEVu2SdvC_2rOtM5yF6il5zvS28-jByfFjwcVBIOwOd8iNq45ekmjjcP_qNIcPAN1ENgzwEwztk1p0Yl7EOVmtSLB8OO-3HvVPfsfhZKhZLx0k3foiLaFgqbbGpKDCKmzcX4PEJCKAkhSO-ZNkGVAMFq11nc0vHetG_9ecxKmgJ8vW7DJ4uerOpAHAxugBUrWMlbcu9OOo1mb5Y7bDlf24D7FRkPHoVWwc"/>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">check_box_outline_blank</span>
+</div>
+</div>
+</div>
+<!-- Card 8 -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow transition-all hover:ring-2 hover:ring-primary-dim/40 cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="stylish lifestyle running shoe on white background with clean reflections and sharp focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5-SXvKbFcPvx12C0wM-Px9c92h-Uz03Ts6PpmvM3gZFgPLwTH_2qG5h1lkDSOXzkCK4_AHx-CGz8_FkGHqRhNxNMic1wXWzHTqEo45FH3Qsv_GH8v9tbzXbo6Ue3Qr34ugphxAD3niOhJTqSP61WNN35OEJJ5VuhxFWEF5JTvGvp8AA2TbzJVeFF-qGmWUbfJxG5GZ6132ZtX-rJ3q9hh6zktC41A8FhN_HsqSyXw6eUsKU0ogiv74z7uCJcZ4bCYFji4GnUEdeI"/>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">check_box_outline_blank</span>
+</div>
+</div>
+</div>
+<!-- Repeat for grid density -->
+<!-- Card 9 -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow transition-all hover:ring-2 hover:ring-primary-dim/40 cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="modern black running shoes on white background with dramatic lighting and high contrast texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2E_JXBtaBXLY_xXI_Xk7pUtcShwBUfbsYVVzapQgzWlP_QzyafxRL1wwoOolBtHeQSCMxTd8JE_WkZHphHlQux8vg6TrUrHBZKTC1y_2WdFwmMH2BVtqhvUi8SSFm9s9EMZqtQdzqaYnabxZpOt0MeLD6hMYpEQ6_KQ-sEtcqUjHPEU0F5vaw8pguKI85MnT_1ZV62UAS5m14ybY3i0_gTg2ecq2mdmGZvOVGhjH6EHKf9R9TUxek_bgCyYF68vWatIeG2c7kmXw"/>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">check_box_outline_blank</span>
+</div>
+</div>
+</div>
+<!-- Card 10 -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow transition-all hover:ring-2 hover:ring-primary-dim/40 cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="high-tech white smartphone on white background showing back panel with sleek camera design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJ_WGmUhRC0z_n2nlFaYWOCeQ1UMzV9Ot8d9appsMxWGmaTZrkOns8X5u75yS9AOfDV2cirC8axSkylIEXq1bOFTsYYRvWSl33JzCaDbdlHtZsUkxL_VGD0FvGSPCDbOM4gcshyE7oawjjgc5joRjwOSxnhIIvfMWY-qmtmsWz_A6pzTFDB_o3mCDuoZ7BhYV9dVNhht8w4PM-keLpw8TTUBFkKpyyMCFi2yIDASqhJNpXKhCzcDKOy04TLgbDLt8JM6b6qT2Ya-g"/>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">check_box_outline_blank</span>
+</div>
+</div>
+</div>
+<!-- Card 11 (Selected) -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow ring-2 ring-secondary transition-all cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="designer denim jacket on white background, high fashion product shot with realistic fabric folds" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbCMnpAhgcutV5OdSiVsb-fZbXgCwafgqK71K1h5L4tDjzh6En4stSfgRf2F_KPNSRvpaah8ra9wghDb3sK9I6xcHCeJy4bOgq2gaqB-46mjaNGRXMEsV4G75y64c9BZS9yUrLyBs7gvU7z4EUnRmyXu-5d5vKSCII1xN_d9z5e3Xpik1Am-lC-MsK4JtVXcYNypaMw7fvS8JkNZANmq8rT9asgme7MBpEmTvNH0n7qffAnMBNVkA3muguS7AyvaZVHy35vvXm0R0"/>
+<div class="absolute inset-0 bg-secondary/10"></div>
+<div class="absolute top-3 right-3 flex flex-col gap-2">
+<div class="w-6 h-6 rounded bg-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary text-sm" style="font-variation-settings: 'FILL' 1;">check_box</span>
+</div>
+</div>
+</div>
+<!-- Card 12 -->
+<div class="group relative aspect-square bg-surface-container rounded-xl overflow-hidden inner-glow transition-all hover:ring-2 hover:ring-primary-dim/40 cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="colorful luxury leather loafers on white background with sophisticated lighting and texture focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5u7UTONovTdLOhEQGY_4TjNjXhiI5JvrcvdSF4xx2xsFqQp8SM6t0I5a0VEJGcgCLpL8VO4m7H8VLPhXXNe7ajTC0zfBQB6bijet8W_ld0R4REPOlbxkMI7c8IV2vNFGtqkTGfU9XwW8SeHnwa1u32F_jAyqvwckkkaZ4_pLMr7E7rUC1sNe28IH4jNRl8EqMrmtEB_o19UsvA_nLSeR9cfZxKQfvyYTFb3HU7zpAHQw9ri_lJ5Ghf-AF6BNgljhKMgCxXriTggA"/>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">check_box_outline_blank</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Action Bar (Floating Overlay) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-surface-bright/80 backdrop-blur-xl px-6 py-4 rounded-2xl lens-shadow border border-outline-variant/20 flex items-center gap-8 min-w-[500px]">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-widest text-primary font-bold">Selection mode</span>
+<span class="text-sm font-semibold text-on-surface">12 items selected for processing</span>
+</div>
+<div class="flex-1">
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-1/4 rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">Cancel</button>
+<button class="px-6 py-2 rounded-lg gradient-cta text-on-primary text-xs font-bold hover:scale-[1.02] transition-transform flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">auto_fix_high</span>
+                        Run Regeneration
+                    </button>
+</div>
+</div>
+</main>
+</div>
+</body></html>
