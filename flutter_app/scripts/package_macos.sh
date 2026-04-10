@@ -47,6 +47,7 @@ embed_pipeline_runner_in_bundles() {
     chmod +x "$dest_dir/pipeline_runner"
     cp "$GWT_BIN" "$dest_dir/GeminiWatermarkTool"
     chmod +x "$dest_dir/GeminiWatermarkTool"
+    cp "$ROOT_DIR/LICENSES/GeminiWatermarkTool.txt" "$dest_dir/GeminiWatermarkTool.LICENSE.txt"
   done
 }
 

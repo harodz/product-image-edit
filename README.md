@@ -141,6 +141,10 @@ Cross-platform status:
 - **Development** runs (`flutter run` without an embedded runner) still use **Python 3** plus `gemini_product_pipeline.py` from the repo. On macOS, GUI apps launched from the IDE often inherit a short `PATH`—the app also probes `/usr/bin/python3` (Xcode CLT), `/opt/homebrew/bin/python3`, and `/usr/local/bin/python3`. On Windows, `python`, `py` (Python Launcher), and common uv install locations are probed automatically.
 - For Linux distribution, copy `pipeline_runner` into the bundle’s `data/flutter_assets/backend/` directory (same layout Flutter uses for assets).
 
+## Third-party licenses
+
+This project ships [GeminiWatermarkTool](https://github.com/allenk/GeminiWatermarkTool) (© 2024 AllenK / Kwyshell) as a pre-built binary for watermark removal. It is distributed under the **MIT License** — see [`LICENSES/GeminiWatermarkTool.txt`](LICENSES/GeminiWatermarkTool.txt). Both packaging scripts copy this license file into the app bundle alongside the binary (`backend/GeminiWatermarkTool.LICENSE.txt`) to satisfy the MIT attribution requirement.
+
 ## Stitch exports for UI alignment
 
 Stitch reference outputs are stored in top-level `stitch_exports/`:

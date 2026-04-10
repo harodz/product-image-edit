@@ -116,9 +116,11 @@ $BACKEND_DIR = "$RELEASE_DIR\data\flutter_assets\backend"
 New-Item -ItemType Directory -Force -Path $BACKEND_DIR | Out-Null
 Copy-Item $RUNNER_BIN "$BACKEND_DIR\pipeline_runner.exe" -Force
 Copy-Item $GWT_BIN "$BACKEND_DIR\GeminiWatermarkTool.exe" -Force
+Copy-Item "$ROOT_DIR\LICENSES\GeminiWatermarkTool.txt" "$BACKEND_DIR\GeminiWatermarkTool.LICENSE.txt" -Force
 
 Write-Host "  -> $BACKEND_DIR\pipeline_runner.exe"
 Write-Host "  -> $BACKEND_DIR\GeminiWatermarkTool.exe"
+Write-Host "  -> $BACKEND_DIR\GeminiWatermarkTool.LICENSE.txt"
 
 # ---------------------------------------------------------------------------
 # [4/4] Done
