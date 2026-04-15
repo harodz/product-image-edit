@@ -33,40 +33,65 @@ class PipelineSettingsScreen extends StatelessWidget {
 class _Content extends StatelessWidget {
   const _Content();
 
+  // Content-area width below which the two side-by-side columns collapse into
+  // a single scrollable column.
+  static const _kSingleColumnBreakpoint = 480.0;
+
   @override
   Widget build(BuildContext context) {
     final appState = AppStateScope.of(context);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 6,
-          child: SingleChildScrollView(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final singleColumn = constraints.maxWidth < _kSingleColumnBreakpoint;
+
+        final leftColumn = Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _ConfigPanel(appState: appState),
+            const SizedBox(height: AppTokens.spacingMd),
+            _ExecutionPanel(appState: appState),
+            const SizedBox(height: AppTokens.spacingMd),
+            _ActionsPanel(appState: appState),
+          ],
+        );
+
+        final rightColumn = Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _ModelPanel(appState: appState),
+            const SizedBox(height: AppTokens.spacingMd),
+            Panel(child: _SummaryPanel(appState: appState)),
+          ],
+        );
+
+        if (singleColumn) {
+          return SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _ConfigPanel(appState: appState),
+                leftColumn,
                 const SizedBox(height: AppTokens.spacingMd),
-                _ExecutionPanel(appState: appState),
-                const SizedBox(height: AppTokens.spacingMd),
-                _ActionsPanel(appState: appState),
+                rightColumn,
               ],
             ),
-          ),
-        ),
-        const SizedBox(width: AppTokens.spacingMd),
-        Expanded(
-          flex: 4,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _ModelPanel(appState: appState),
-                const SizedBox(height: AppTokens.spacingMd),
-                Panel(child: _SummaryPanel(appState: appState)),
-              ],
+          );
+        }
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 6,
+              child: SingleChildScrollView(child: leftColumn),
             ),
-          ),
-        ),
-      ],
+            const SizedBox(width: AppTokens.spacingMd),
+            Expanded(
+              flex: 4,
+              child: SingleChildScrollView(child: rightColumn),
+            ),
+          ],
+        );
+      },
     );
   }
 }

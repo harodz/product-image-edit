@@ -91,6 +91,7 @@ class PipelineRunSnapshot {
     required this.imageJobs,
     required this.is429Backoff,
     required this.backoffSecondsRemaining,
+    required this.backoffReason,
     required this.throughputIPM,
     required this.eta,
     required this.successRate,
@@ -114,6 +115,7 @@ class PipelineRunSnapshot {
   final Map<String, ImageJobState> imageJobs;
   final bool is429Backoff;
   final int backoffSecondsRemaining;
+  final String backoffReason;
   final double? throughputIPM;
   final Duration? eta;
   final double successRate;
@@ -176,6 +178,7 @@ class AppState extends ChangeNotifier {
   final Map<String, ImageJobState> _imageJobs = {};
   bool _is429Backoff = false;
   int _backoffSecondsRemaining = 0;
+  String _backoffReason = 'rate_limit';
   Timer? _backoffTimer;
   int? _spaceSavedBytes;
 
@@ -225,6 +228,7 @@ class AppState extends ChangeNotifier {
       imageJobs: Map.unmodifiable(_imageJobs),
       is429Backoff: _is429Backoff,
       backoffSecondsRemaining: _backoffSecondsRemaining,
+      backoffReason: _backoffReason,
       throughputIPM: throughputIPM,
       eta: eta,
       successRate: successRate,
@@ -565,6 +569,15 @@ class AppState extends ChangeNotifier {
           : PipelineRunPhase.failed;
       if (result.wasCancelled) {
         _error = '流水线已取消。';
+        for (final job in _imageJobs.values) {
+          if (job.geminiStage == GeminiStage.processing) {
+            job.geminiStage = GeminiStage.pending;
+          }
+          if (job.cleanupStage == CleanupStage.processing) {
+            job.cleanupStage = CleanupStage.pending;
+          }
+        }
+        unawaited(_flushCancelledJobsToState());
       } else if (result.exitCode != 0) {
         _error = '流水线异常退出，代码：${result.exitCode}。';
       }
@@ -673,9 +686,10 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _startBackoffCountdown(int seconds) {
+  void _startBackoffCountdown(int seconds, {String reason = 'rate_limit'}) {
     _is429Backoff = true;
     _backoffSecondsRemaining = seconds;
+    _backoffReason = reason;
     _backoffTimer?.cancel();
     _backoffTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_backoffSecondsRemaining > 0) {
@@ -783,13 +797,17 @@ class AppState extends ChangeNotifier {
               job.geminiStage = GeminiStage.failed;
               job.errorType = ImageErrorType.apiError;
             }
+            // Always clear cleanup spinner — failure terminates the image regardless
+            // of which stage it was in when the error occurred.
+            job.cleanupStage = CleanupStage.pending;
             job.errorMessage = event['error_msg'] as String?;
             _imageJobs[fileName] = job;
           }
           break;
         case 'backoff_start':
           final durationS = (event['duration_s'] as num?)?.toDouble() ?? 30.0;
-          _startBackoffCountdown(durationS.ceil());
+          final reason = (event['reason'] as String?) ?? 'rate_limit';
+          _startBackoffCountdown(durationS.ceil(), reason: reason);
           break;
         case 'backoff_end':
           _is429Backoff = false;
@@ -1099,6 +1117,55 @@ class AppState extends ChangeNotifier {
       default:
         return CleanupStage.pending;
     }
+  }
+
+  String _geminiStageToString(GeminiStage stage) {
+    switch (stage) {
+      case GeminiStage.processing:
+        return 'processing';
+      case GeminiStage.done:
+        return 'done';
+      case GeminiStage.failed:
+        return 'failed';
+      case GeminiStage.safetyBlocked:
+        return 'safetyBlocked';
+      case GeminiStage.pending:
+        return 'pending';
+    }
+  }
+
+  String _cleanupStageToString(CleanupStage stage) {
+    switch (stage) {
+      case CleanupStage.processing:
+        return 'processing';
+      case CleanupStage.done:
+        return 'done';
+      case CleanupStage.pending:
+        return 'pending';
+    }
+  }
+
+  Future<void> _flushCancelledJobsToState() async {
+    final inputPath = config.inputDir.trim();
+    if (inputPath.isEmpty) return;
+    final inputDir = Directory(inputPath);
+    if (!inputDir.existsSync()) return;
+
+    final allKeys = await _scanInputRelKeys(inputDir);
+    final images = await _loadMergedPipelineImagesMap(inputDir, allKeys);
+
+    for (final job in _imageJobs.values) {
+      final absInput = job.inputPath;
+      if (absInput == null) continue;
+      final relKey =
+          p.relative(absInput, from: inputDir.absolute.path).replaceAll('\\', '/');
+      final rec = Map<String, dynamic>.from(images[relKey] ?? _defaultImageRecordMap());
+      rec['gemini'] = _geminiStageToString(job.geminiStage);
+      rec['cleanup'] = _cleanupStageToString(job.cleanupStage);
+      images[relKey] = rec;
+    }
+
+    await _writePipelineStateV2(images);
   }
 
   Future<void> reloadRunnableJobsFromDisk() async {

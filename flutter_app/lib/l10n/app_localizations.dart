@@ -650,6 +650,24 @@ abstract class AppLocalizations {
   /// **'Rate limit — waiting'**
   String get rateLimitWaiting;
 
+  /// No description provided for @serverErrorWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error — waiting'**
+  String get serverErrorWaiting;
+
+  /// No description provided for @cancelPipeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelPipeline;
+
+  /// No description provided for @cancellingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelling…'**
+  String get cancellingLabel;
+
   /// No description provided for @gridFilename.
   ///
   /// In en, this message translates to:

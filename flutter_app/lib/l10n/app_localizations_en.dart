@@ -318,6 +318,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rateLimitWaiting => 'Rate limit — waiting';
 
   @override
+  String get serverErrorWaiting => 'Server error — waiting';
+
+  @override
+  String get cancelPipeline => 'Cancel';
+
+  @override
+  String get cancellingLabel => 'Cancelling…';
+
+  @override
   String get gridFilename => 'FILENAME';
 
   @override

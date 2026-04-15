@@ -65,7 +65,16 @@ class PipelineRunner {
       if (!f.existsSync()) {
         continue;
       }
-      final key = readApiKeyFromEnvText(f.readAsStringSync());
+      String contents;
+      try {
+        contents = f.readAsStringSync();
+      } on PathAccessException {
+        // macOS sandbox may block reads outside the app container; skip candidate.
+        continue;
+      } on FileSystemException {
+        continue;
+      }
+      final key = readApiKeyFromEnvText(contents);
       if (key != null && key.isNotEmpty) {
         envPathWithKey = f.path;
         break;
@@ -128,10 +137,13 @@ class PipelineRunner {
         .transform(const LineSplitter())
         .listen(onOutputLine);
 
-    final exitCode = await process.exitCode;
+    final results = await Future.wait<Object?>([
+      process.exitCode,
+      stdoutSub.asFuture<void>(),
+      stderrSub.asFuture<void>(),
+    ]);
+    final exitCode = results[0] as int;
     final wasCancelled = exitCode == -15 || exitCode == 130;
-    await stdoutSub.cancel();
-    await stderrSub.cancel();
     _activeProcess = null;
     return PipelineRunResult(exitCode: exitCode, wasCancelled: wasCancelled);
   }

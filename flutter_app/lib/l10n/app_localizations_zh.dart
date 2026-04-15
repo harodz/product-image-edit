@@ -315,6 +315,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get rateLimitWaiting => '限速 — 等待中';
 
   @override
+  String get serverErrorWaiting => '服务器错误 — 等待中';
+
+  @override
+  String get cancelPipeline => '取消';
+
+  @override
+  String get cancellingLabel => '取消中…';
+
+  @override
   String get gridFilename => '文件名';
 
   @override

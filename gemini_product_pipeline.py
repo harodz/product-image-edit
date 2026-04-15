@@ -58,7 +58,12 @@ _tl_clients = _ThreadLocalClients()
 
 def _get_thread_client() -> "genai.Client":
     if _tl_clients.client is None:
-        _tl_clients.client = genai.Client()
+        # 120 s per-request timeout: image generation p99 is ~60-90 s;
+        # this prevents hung workers while still covering tail latency.
+        # TimeoutErrors are caught as retryable transport errors upstream.
+        _tl_clients.client = genai.Client(
+            http_options=types.HttpOptions(timeout=120_000),
+        )
     return _tl_clients.client
 
 
@@ -632,7 +637,8 @@ def _generate_content_with_retry(
                     "ts": time.time(),
                     "duration_s": round(sleep_s, 1),
                     "attempt": attempt + 1,
-                    "reason": "rate_limit",
+                    "reason": "rate_limit" if getattr(e, "code", None) == 429 else "server_error",
+                    "api_code": getattr(e, "code", None),
                 })
             time.sleep(sleep_s)
             if emitter:
@@ -997,8 +1003,7 @@ def main() -> int:
         log_dir.mkdir(parents=True, exist_ok=True)
 
     state_lock = threading.Lock()
-    pending_processed_keys: set[str] = set()  # accumulated in-memory; flushed once after all workers finish
-    failure_lock = threading.Lock()
+    pending_processed_keys: set[str] = set()
     failure_category_by_key: dict[str, str] = {}
     done = 0
     done_lock = threading.Lock()
@@ -1027,19 +1032,30 @@ def main() -> int:
     ) -> None:
         nonlocal failed
         category = _categorize_error(e)
-        emitter.emit({
+        failed_event: dict = {
             "event": "image_failed",
             "path": rel.as_posix(),
             "ts": time.time(),
             "error_category": category,
             "error_msg": str(e)[:500],
-        })
+        }
+        api_code = getattr(e, "code", None)
+        if api_code is not None:
+            failed_event["api_code"] = api_code
+        emitter.emit(failed_event)
         if img_log is not None:
             img_log.append(f"FAILED [{category}]: {e}")
             if log_dir is not None:
                 _flush_image_log(log_dir, rel, img_log)
-        with failure_lock:
+        with state_lock:
             failure_category_by_key[_rel_key(rel)] = category
+            if use_pipeline_state and pipeline_state_path is not None and all_image_keys is not None:
+                flush_pipeline_state_v2(
+                    pipeline_state_path,
+                    all_image_keys,
+                    success_keys=pending_processed_keys,
+                    failure_category_by_key=failure_category_by_key,
+                )
         with print_lock:
             failed += 1
             print(f"  Error: {e}", file=sys.stderr)
@@ -1073,6 +1089,8 @@ def main() -> int:
                         f"  Could not copy to {failed_dir}: {copy_err}",
                         file=sys.stderr,
                     )
+        # Emit progress outside print_lock — emitter also acquires print_lock internally.
+        _emit_progress(emitter, done, len(work_items), failed, pipeline_start_time)
 
     show_progress = not args.no_progress
 
@@ -1115,6 +1133,13 @@ def main() -> int:
                 print(f"Done: {rel}", file=sys.stderr)
         with state_lock:
             pending_processed_keys.add(_rel_key(rel))
+            if use_pipeline_state and pipeline_state_path is not None and all_image_keys is not None:
+                flush_pipeline_state_v2(
+                    pipeline_state_path,
+                    all_image_keys,
+                    success_keys=pending_processed_keys,
+                    failure_category_by_key=failure_category_by_key,
+                )
         with done_lock:
             done += 1
             _emit_progress(emitter, done, len(work_items), failed, pipeline_start_time)

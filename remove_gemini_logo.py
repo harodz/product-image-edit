@@ -64,25 +64,39 @@ def process_image(image_path, output_path=None, copy_if_no_logo=False) -> int:
     dst = Path(output_path)
 
     binary = _find_binary()
-    result = subprocess.run(
-        [str(binary), "-i", str(src), "-o", str(dst)],
-        capture_output=True,
-        text=True,
-    )
+    try:
+        result = subprocess.run(
+            [str(binary), "-i", str(src), "-o", str(dst)],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+    except subprocess.TimeoutExpired:
+        print(f"  GWT timed out after 120s", file=sys.stderr)
+        if copy_if_no_logo:
+            shutil.copy2(str(src), str(dst))
+            print(f"  GWT timeout — saved copy -> {dst.name}", file=sys.stderr)
+            return dst.stat().st_size
+        return 0
 
     if result.returncode == 0 and dst.exists():
-        print(f"  Watermark removed -> {dst.name}")
+        print(f"  Watermark removed -> {dst.name}", file=sys.stderr)
         return dst.stat().st_size
 
     # Watermark not detected or tool error
-    if result.stderr:
-        print(f"  GWT: {result.stderr.strip()}")
+    if result.returncode != 0:
+        msg = f"  GWT exit {result.returncode}"
+        if result.stderr:
+            msg += f": {result.stderr.strip()}"
+        print(msg, file=sys.stderr)
+    elif result.stderr:
+        print(f"  GWT: {result.stderr.strip()}", file=sys.stderr)
     if copy_if_no_logo:
         shutil.copy2(str(src), str(dst))
-        print(f"  No watermark detected — saved copy -> {dst.name}")
+        print(f"  No watermark detected — saved copy -> {dst.name}", file=sys.stderr)
         return dst.stat().st_size
 
-    print(f"  No watermark detected — skipping.")
+    print(f"  No watermark detected — skipping.", file=sys.stderr)
     return 0
 
 

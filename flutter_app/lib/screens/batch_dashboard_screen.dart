@@ -42,24 +42,43 @@ class _ContentState extends State<_Content> {
     Widget body = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _GlobalStatusHeader(snapshot: snapshot, workers: appState.config.workers),
+        _GlobalStatusHeader(
+          snapshot: snapshot,
+          workers: appState.config.workers,
+          onCancel: snapshot.phase == PipelineRunPhase.running
+              ? appState.cancelPipeline
+              : null,
+        ),
         const SizedBox(height: AppTokens.spacingMd),
         Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: _ProcessingGrid(snapshot: snapshot, appState: appState),
-              ),
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                curve: Curves.easeInOut,
-                width: hasFailures ? 288 : 0,
-                child: hasFailures
-                    ? _FailureSidePanel(snapshot: snapshot, appState: appState)
-                    : const SizedBox.shrink(),
-              ),
-            ],
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              // Hide the failure side-panel when the content area is too narrow
+              // to show both the grid and the panel side by side.
+              // Grid needs ~330px minimum (fixed cols + actions) even without the
+              // latency column; panel + margin takes ~300px → threshold = 630px.
+              // Round up to 730 to also safely fit inline retry buttons.
+              const failurePanelWidth = 288.0;
+              const failurePanelBreakpoint = 730.0;
+              final showPanel =
+                  hasFailures && constraints.maxWidth >= failurePanelBreakpoint;
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: _ProcessingGrid(snapshot: snapshot, appState: appState),
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeInOut,
+                    width: showPanel ? failurePanelWidth : 0,
+                    child: showPanel
+                        ? _FailureSidePanel(snapshot: snapshot, appState: appState)
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              );
+            },
           ),
         ),
         const SizedBox(height: AppTokens.spacingMd),
@@ -90,10 +109,12 @@ class _GlobalStatusHeader extends StatelessWidget {
   const _GlobalStatusHeader({
     required this.snapshot,
     required this.workers,
+    this.onCancel,
   });
 
   final PipelineRunSnapshot snapshot;
   final int workers;
+  final Future<void> Function()? onCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -140,12 +161,13 @@ class _GlobalStatusHeader extends StatelessWidget {
                 workersTotal: workers,
                 is429Backoff: snapshot.is429Backoff,
                 backoffSeconds: snapshot.backoffSecondsRemaining,
+                backoffReason: snapshot.backoffReason,
                 l10n: l10n,
               ),
             ],
           ),
           const SizedBox(height: AppTokens.spacingMd),
-          // Metric tiles
+          // Metric tiles + cancel button
           Row(
             children: [
               _MetricTile(
@@ -176,6 +198,10 @@ class _GlobalStatusHeader extends StatelessWidget {
                         ? AppTokens.primary
                         : AppTokens.error,
               ),
+              if (onCancel != null) ...[
+                const Spacer(),
+                _CancelButton(onCancel: onCancel!),
+              ],
             ],
           ),
         ],
@@ -221,27 +247,41 @@ class _DualStageProgressBar extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(
-              progressLabel,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: AppTokens.onBackground,
+            Flexible(
+              child: Text(
+                progressLabel,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: AppTokens.onBackground,
+                ),
               ),
             ),
-            const Spacer(),
-            if (geminiActive > 0)
-              _SegmentLabel(
-                color: AppTokens.secondary,
-                label: l10n.geminiActiveLabel(geminiActive),
+            if (geminiActive > 0 || cleanupActive > 0)
+              Flexible(
+                fit: FlexFit.loose,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const SizedBox(width: 8),
+                    if (geminiActive > 0)
+                      _SegmentLabel(
+                        color: AppTokens.secondary,
+                        label: l10n.geminiActiveLabel(geminiActive),
+                      ),
+                    if (cleanupActive > 0) ...[
+                      const SizedBox(width: 8),
+                      _SegmentLabel(
+                        color: AppTokens.tertiary,
+                        label: l10n.cleanupActiveLabel(cleanupActive),
+                      ),
+                    ],
+                  ],
+                ),
               ),
-            if (cleanupActive > 0) ...[
-              const SizedBox(width: 8),
-              _SegmentLabel(
-                color: AppTokens.tertiary,
-                label: l10n.cleanupActiveLabel(cleanupActive),
-              ),
-            ],
           ],
         ),
         const SizedBox(height: 6),
@@ -366,6 +406,7 @@ class _HeartbeatMonitor extends StatefulWidget {
     required this.workersTotal,
     required this.is429Backoff,
     required this.backoffSeconds,
+    required this.backoffReason,
     required this.l10n,
   });
 
@@ -373,6 +414,7 @@ class _HeartbeatMonitor extends StatefulWidget {
   final int workersTotal;
   final bool is429Backoff;
   final int backoffSeconds;
+  final String backoffReason;
   final AppLocalizations l10n;
 
   @override
@@ -449,7 +491,9 @@ class _HeartbeatMonitorState extends State<_HeartbeatMonitor>
             ),
             if (widget.is429Backoff)
               Text(
-                widget.l10n.rateLimitWaiting,
+                widget.backoffReason == 'server_error'
+                    ? widget.l10n.serverErrorWaiting
+                    : widget.l10n.rateLimitWaiting,
                 style: TextStyle(
                   fontSize: 10,
                   color: Colors.amber.withValues(alpha: 0.7),
@@ -496,27 +540,33 @@ class _MetricTile extends StatelessWidget {
           children: [
             Icon(icon, size: 16, color: AppTokens.onBackground.withValues(alpha: 0.4)),
             const SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: valueColor ?? AppTokens.onBackground,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    value,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: valueColor ?? AppTokens.onBackground,
+                    ),
                   ),
-                ),
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 10,
-                    letterSpacing: 0.5,
-                    color: AppTokens.onBackground.withValues(alpha: 0.45),
+                  Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 10,
+                      letterSpacing: 0.5,
+                      color: AppTokens.onBackground.withValues(alpha: 0.45),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -536,45 +586,58 @@ class _ProcessingGrid extends StatelessWidget {
   final PipelineRunSnapshot snapshot;
   final AppState appState;
 
+  // Below this content width hide the latency column to avoid overflow.
+  // Must be > max fixed-cols-with-retry (400px) + padding (24px) = 424px → use 450.
+  static const _kHideLatencyBreakpoint = 450.0;
+
   @override
   Widget build(BuildContext context) {
     final jobs = snapshot.imageJobs.values.toList();
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppTokens.surfaceContainer,
-        borderRadius: BorderRadius.circular(AppTokens.radius),
-        border: Border.all(color: AppTokens.outlineVariant.withValues(alpha: 0.12)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Header
-          _GridHeader(),
-          const Divider(height: 1, color: Color(0xFF1E2530)),
-          // Body
-          Expanded(
-            child: jobs.isEmpty
-                ? _EmptyState(phase: snapshot.phase)
-                : ListView.builder(
-                    itemCount: jobs.length,
-                    itemExtent: 56,
-                    itemBuilder: (context, i) {
-                      return _ImageJobRow(
-                        job: jobs[i],
-                        logLines: snapshot.logLines,
-                        onRetry: appState.retryFailed,
-                      );
-                    },
-                  ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final showLatency = constraints.maxWidth >= _kHideLatencyBreakpoint;
+        return Container(
+          decoration: BoxDecoration(
+            color: AppTokens.surfaceContainer,
+            borderRadius: BorderRadius.circular(AppTokens.radius),
+            border: Border.all(color: AppTokens.outlineVariant.withValues(alpha: 0.12)),
           ),
-        ],
-      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Header
+              _GridHeader(showLatency: showLatency),
+              const Divider(height: 1, color: Color(0xFF1E2530)),
+              // Body
+              Expanded(
+                child: jobs.isEmpty
+                    ? _EmptyState(phase: snapshot.phase)
+                    : ListView.builder(
+                        itemCount: jobs.length,
+                        itemExtent: 56,
+                        itemBuilder: (context, i) {
+                          return _ImageJobRow(
+                            job: jobs[i],
+                            logLines: snapshot.logLines,
+                            onRetry: appState.retryFailed,
+                            showLatency: showLatency,
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
 
 class _GridHeader extends StatelessWidget {
+  const _GridHeader({required this.showLatency});
+  final bool showLatency;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -589,8 +652,7 @@ class _GridHeader extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: 48),
-          SizedBox(
-            width: 200,
+          Expanded(
             child: Text(l10n.gridFilename, style: labelStyle),
           ),
           SizedBox(
@@ -601,11 +663,11 @@ class _GridHeader extends StatelessWidget {
             width: 100,
             child: Text(l10n.gridCleanup, style: labelStyle),
           ),
-          SizedBox(
-            width: 72,
-            child: Text(l10n.gridLatency, style: labelStyle),
-          ),
-          const Spacer(),
+          if (showLatency)
+            SizedBox(
+              width: 72,
+              child: Text(l10n.gridLatency, style: labelStyle),
+            ),
           Text(l10n.gridActions, style: labelStyle),
         ],
       ),
@@ -620,11 +682,13 @@ class _ImageJobRow extends StatefulWidget {
     required this.job,
     required this.logLines,
     required this.onRetry,
+    required this.showLatency,
   });
 
   final ImageJobState job;
   final List<String> logLines;
   final VoidCallback onRetry;
+  final bool showLatency;
 
   @override
   State<_ImageJobRow> createState() => _ImageJobRowState();
@@ -714,9 +778,8 @@ class _ImageJobRowState extends State<_ImageJobRow> {
             child: _Thumbnail(path: job.inputPath),
           ),
           const SizedBox(width: 8),
-          // Filename
-          SizedBox(
-            width: 200,
+          // Filename — Expanded so it fills remaining space and never overflows.
+          Expanded(
             child: Text(
               job.fileName,
               maxLines: 1,
@@ -736,20 +799,20 @@ class _ImageJobRowState extends State<_ImageJobRow> {
             width: 100,
             child: _cleanupIcon(job.cleanupStage),
           ),
-          // Latency
-          SizedBox(
-            width: 72,
-            child: Text(
-              job.latencyMs != null
-                  ? '${(job.latencyMs! / 1000).toStringAsFixed(1)}s'
-                  : AppLocalizations.of(context)!.emDash,
-              style: TextStyle(
-                fontSize: 12,
-                color: AppTokens.onBackground.withValues(alpha: 0.6),
+          // Latency — hidden when grid is too narrow.
+          if (widget.showLatency)
+            SizedBox(
+              width: 72,
+              child: Text(
+                job.latencyMs != null
+                    ? '${(job.latencyMs! / 1000).toStringAsFixed(1)}s'
+                    : AppLocalizations.of(context)!.emDash,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppTokens.onBackground.withValues(alpha: 0.6),
+                ),
               ),
             ),
-          ),
-          const Spacer(),
           // Actions
           TextButton(
             onPressed: () => _showLogs(context),
@@ -892,9 +955,8 @@ class _LogDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: AppTokens.surfaceContainer,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTokens.radius)),
-      child: SizedBox(
-        width: 560,
-        height: 360,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 560, maxHeight: 360, minHeight: 200),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -1262,6 +1324,53 @@ class _PanelButton extends StatelessWidget {
   }
 }
 
+// ── Cancel button ─────────────────────────────────────────────────────────────
+
+class _CancelButton extends StatefulWidget {
+  const _CancelButton({required this.onCancel});
+  final Future<void> Function() onCancel;
+
+  @override
+  State<_CancelButton> createState() => _CancelButtonState();
+}
+
+class _CancelButtonState extends State<_CancelButton> {
+  bool _busy = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return SizedBox(
+      height: 34,
+      child: OutlinedButton.icon(
+        onPressed: _busy
+            ? null
+            : () async {
+                setState(() => _busy = true);
+                await widget.onCancel();
+                if (mounted) setState(() => _busy = false);
+              },
+        icon: _busy
+            ? const SizedBox(
+                width: 13,
+                height: 13,
+                child: CircularProgressIndicator(strokeWidth: 1.5),
+              )
+            : const Icon(Icons.stop_circle_outlined, size: 13),
+        label: Text(
+          _busy ? l10n.cancellingLabel : l10n.cancelPipeline,
+          style: const TextStyle(fontSize: 12),
+        ),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppTokens.error,
+          side: BorderSide(color: AppTokens.error.withValues(alpha: 0.35)),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+        ),
+      ),
+    );
+  }
+}
+
 // ── Collapsible console ────────────────────────────────────────────────────────
 
 class _CollapsibleConsole extends StatelessWidget {
@@ -1458,8 +1567,9 @@ class _FinalityOverlay extends StatelessWidget {
       child: Container(
         color: AppTokens.background.withValues(alpha: 0.8),
         child: Center(
-          child: Container(
-            width: 480,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 480),
+            child: Container(
             padding: const EdgeInsets.all(AppTokens.spacingXl),
             decoration: BoxDecoration(
               color: AppTokens.surfaceContainer,
@@ -1568,6 +1678,7 @@ class _FinalityOverlay extends StatelessWidget {
               ],
             ),
           ),
+          ), // ConstrainedBox
         ),
       ),
     );

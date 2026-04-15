@@ -139,6 +139,9 @@
     }
   },
   "rateLimitWaiting": "Rate limit — waiting",
+  "serverErrorWaiting": "Server error — waiting",
+  "cancelPipeline": "Cancel",
+  "cancellingLabel": "Cancelling…",
   "gridFilename": "FILENAME",
   "gridGemini": "GEMINI",
   "gridCleanup": "CLEANUP",
