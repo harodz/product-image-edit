@@ -193,6 +193,8 @@ class _ExecutionPanel extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: AppTokens.spacingMd),
+          _OutputDimensionField(appState: appState),
           Divider(
             height: AppTokens.spacingLg,
             color: AppTokens.outlineVariant.withValues(alpha: 0.15),
@@ -850,6 +852,127 @@ class _ToggleRow extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+const _kAspectRatios = <String>[
+  '1:1',
+  '2:3',
+  '3:2',
+  '3:4',
+  '4:3',
+  '4:5',
+  '5:4',
+  '9:16',
+  '16:9',
+  '21:9',
+];
+
+class _OutputDimensionField extends StatefulWidget {
+  const _OutputDimensionField({required this.appState});
+  final AppState appState;
+
+  @override
+  State<_OutputDimensionField> createState() => _OutputDimensionFieldState();
+}
+
+class _OutputDimensionFieldState extends State<_OutputDimensionField> {
+  late final TextEditingController _dimCtrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _dimCtrl = TextEditingController(
+      text: widget.appState.config.outputDimension?.toString() ?? '',
+    );
+  }
+
+  @override
+  void dispose() {
+    _dimCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cfg = widget.appState.config;
+    final labelStyle = Theme.of(context).textTheme.labelLarge;
+    final size = cfg.computedOutputSize;
+    final sizeLabel = size != null ? '${size.$1} × ${size.$2}' : '';
+    final isSquare = cfg.aspectRatio == null ||
+        cfg.aspectRatio!.isEmpty ||
+        cfg.aspectRatio == '1:1';
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('输出宽高比 (Aspect Ratio)', style: labelStyle),
+        const SizedBox(height: 6),
+        DropdownButtonFormField<String?>(
+          initialValue: cfg.aspectRatio,
+          isDense: true,
+          decoration: const InputDecoration(isDense: true),
+          items: [
+            const DropdownMenuItem<String?>(
+              value: null,
+              child: Text('默认 (Gemini default)'),
+            ),
+            for (final r in _kAspectRatios)
+              DropdownMenuItem<String?>(value: r, child: Text(r)),
+          ],
+          onChanged: widget.appState.setAspectRatio,
+        ),
+        const SizedBox(height: AppTokens.spacingSm),
+        Text('输出像素尺寸 (可选)', style: labelStyle),
+        const SizedBox(height: 2),
+        Text(
+          '留空则保留 Gemini 原始分辨率。填写则按宽高调整并以白色补边。',
+          style: TextStyle(
+            fontSize: 11,
+            color: AppTokens.onBackground.withValues(alpha: 0.5),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: _dimCtrl,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  isDense: true,
+                  labelText: '长边像素',
+                  hintText: '800',
+                ),
+                onChanged: (s) {
+                  final v = s.trim().isEmpty ? null : int.tryParse(s.trim());
+                  widget.appState.setOutputDimension(v);
+                },
+              ),
+            ),
+            if (!isSquare && size != null) ...[
+              const SizedBox(width: 8),
+              IconButton(
+                tooltip: '切换横竖方向',
+                icon: const Icon(Icons.swap_horiz, size: 20),
+                onPressed: widget.appState.toggleOutputOrientation,
+              ),
+            ],
+            if (size != null) ...[
+              const SizedBox(width: 8),
+              Text(
+                sizeLabel,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: AppTokens.onBackground.withValues(alpha: 0.7),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ],
     );
   }
 }

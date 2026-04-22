@@ -9,6 +9,7 @@ import argparse
 import json
 import os
 import random
+import re
 import shlex
 import shutil
 import ssl
@@ -591,6 +592,7 @@ def _generate_content_with_retry(
     retry_backoff_base: float,
     emitter: EventEmitter | None = None,
     img_log: list[str] | None = None,
+    aspect_ratio: str | None = None,
 ) -> object:
     """Call generate_content; retry 429/503 and transient TLS/connection errors with backoff."""
     max_attempts = max(1, 1 + max_api_retries)
@@ -605,10 +607,13 @@ def _generate_content_with_retry(
     last_exc: BaseException | None = None
     for attempt in range(max_attempts):
         kwargs: dict = {"model": model, "contents": contents}
-        if use_image_config:
-            kwargs["config"] = types.GenerateContentConfig(
-                response_modalities=["TEXT", "IMAGE"],
-            )
+        if use_image_config or aspect_ratio:
+            cfg_kwargs: dict = {}
+            if use_image_config:
+                cfg_kwargs["response_modalities"] = ["TEXT", "IMAGE"]
+            if aspect_ratio:
+                cfg_kwargs["image_config"] = types.ImageConfig(aspect_ratio=aspect_ratio)
+            kwargs["config"] = types.GenerateContentConfig(**cfg_kwargs)
         try:
             return client.models.generate_content(**kwargs)
         except APIError as e:
@@ -682,6 +687,17 @@ def _generate_content_with_retry(
     raise last_exc
 
 
+def _resize_to_target(path: Path, target: tuple[int, int]) -> None:
+    """Resize image at `path` in-place to target (W, H), preserving aspect with white padding."""
+    tw, th = target
+    with Image.open(path) as im:
+        im = im.convert("RGB")
+        im.thumbnail((tw, th), Image.LANCZOS)
+        canvas = Image.new("RGB", (tw, th), (255, 255, 255))
+        canvas.paste(im, ((tw - im.width) // 2, (th - im.height) // 2))
+        canvas.save(path)
+
+
 def run_one(
     model: str,
     prompt: str,
@@ -697,6 +713,8 @@ def run_one(
     rate_limiter: "_TokenBucket | None" = None,
     max_api_retries: int = DEFAULT_MAX_API_RETRIES,
     retry_backoff_base: float = 2.0,
+    aspect_ratio: str | None = None,
+    output_size: tuple[int, int] | None = None,
 ) -> None:
     if rate_limiter is not None:
         rate_limiter.acquire()
@@ -709,6 +727,7 @@ def run_one(
         model=model,
         contents=contents,
         use_image_config=use_image_config,
+        aspect_ratio=aspect_ratio,
         log_rel=rel,
         print_lock=print_lock,
         max_api_retries=max_api_retries,
@@ -754,6 +773,10 @@ def run_one(
         finally:
             if temp_raw.exists():
                 temp_raw.unlink()
+
+    if output_size is not None:
+        _resize_to_target(final_path, output_size)
+        output_bytes = final_path.stat().st_size
 
     if emitter:
         emitter.emit({
@@ -874,6 +897,21 @@ def main() -> int:
         help="Write per-image log files to DIR/<rel_path_stem>.log for the UI 'View Logs' feature.",
     )
     parser.add_argument(
+        "--aspect-ratio",
+        type=str,
+        default=None,
+        choices=["1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"],
+        metavar="RATIO",
+        help="Gemini aspect ratio passed as image_config.aspect_ratio (e.g., 1:1, 4:3). Default: model default.",
+    )
+    parser.add_argument(
+        "--output-size",
+        type=str,
+        default=None,
+        metavar="WxH",
+        help="Resize final image to WIDTHxHEIGHT (e.g., 800x800), pad-to-white, applied after logo removal.",
+    )
+    parser.add_argument(
         "--rate-limit",
         type=float,
         default=None,
@@ -893,6 +931,21 @@ def main() -> int:
     if args.max_api_retries < 0:
         print("--max-api-retries must be >= 0", file=sys.stderr)
         return 1
+
+    output_size: tuple[int, int] | None = None
+    if args.output_size:
+        m = re.fullmatch(r"\s*(\d+)\s*[xX\u00d7]\s*(\d+)\s*", args.output_size)
+        if not m:
+            print(
+                f"--output-size must be WIDTHxHEIGHT (e.g., 800x800); got {args.output_size!r}",
+                file=sys.stderr,
+            )
+            return 1
+        w, h = int(m.group(1)), int(m.group(2))
+        if w <= 0 or h <= 0 or w > 8192 or h > 8192:
+            print("--output-size width/height must be in 1..8192", file=sys.stderr)
+            return 1
+        output_size = (w, h)
 
     # Packaged app: .env lives next to the Flutter app support dir (set via PRODUCT_IMAGE_EDIT_APP_DATA).
     # Dev: still loads repo-root .env.
@@ -1121,6 +1174,8 @@ def main() -> int:
                 rate_limiter=rate_limiter,
                 max_api_retries=args.max_api_retries,
                 retry_backoff_base=args.retry_backoff_base,
+                aspect_ratio=args.aspect_ratio,
+                output_size=output_size,
             )
         except Exception as e:
             handle_failure(src, rel, e, img_log)

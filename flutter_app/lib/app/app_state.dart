@@ -51,6 +51,26 @@ class PipelineConfig {
   bool useResponseModalities = false;
   bool copyFailed = false;
   bool noProgress = false;
+  String? aspectRatio;
+  int? outputDimension;
+  bool outputLandscape = true;
+
+  (int, int)? get computedOutputSize {
+    final dim = outputDimension;
+    if (dim == null || dim <= 0) return null;
+    final ar = aspectRatio;
+    if (ar == null || ar.isEmpty) return (dim, dim);
+    final parts = ar.split(':');
+    if (parts.length != 2) return (dim, dim);
+    final rw = int.tryParse(parts[0]);
+    final rh = int.tryParse(parts[1]);
+    if (rw == null || rh == null || rw <= 0 || rh <= 0) return (dim, dim);
+    final longSide = dim;
+    final shortSide = (longSide * (rw < rh ? rw : rh)) ~/ (rw > rh ? rw : rh);
+    final w = rw >= rh ? longSide : shortSide;
+    final h = rw >= rh ? shortSide : longSide;
+    return outputLandscape ? (w, h) : (h, w);
+  }
 
   List<String> validate() {
     final errors = <String>[];
@@ -67,6 +87,12 @@ class PipelineConfig {
     }
     if (maxApiRetries < 0) {
       errors.add('重试次数须为 0 或更大。');
+    }
+    if (outputDimension != null) {
+      final d = outputDimension!;
+      if (d <= 0 || d > 8192) {
+        errors.add('输出尺寸须在 1..8192 之间。');
+      }
     }
     return errors;
   }
@@ -414,6 +440,24 @@ class AppState extends ChangeNotifier {
 
   void setFlagNoProgress(bool value) {
     config.noProgress = value;
+    unawaited(_saveSettings());
+    notifyListeners();
+  }
+
+  void setAspectRatio(String? value) {
+    config.aspectRatio = (value == null || value.isEmpty) ? null : value;
+    unawaited(_saveSettings());
+    notifyListeners();
+  }
+
+  void setOutputDimension(int? value) {
+    config.outputDimension = (value != null && value > 0) ? value : null;
+    unawaited(_saveSettings());
+    notifyListeners();
+  }
+
+  void toggleOutputOrientation() {
+    config.outputLandscape = !config.outputLandscape;
     unawaited(_saveSettings());
     notifyListeners();
   }
@@ -1430,6 +1474,20 @@ class AppState extends ChangeNotifier {
       if (kr is bool) {
         config.keepRaw = kr;
       }
+      final ar = raw['aspectRatio'];
+      if (ar is String && ar.isNotEmpty) {
+        config.aspectRatio = ar;
+      }
+      final od = raw['outputDimension'];
+      if (od is int) {
+        config.outputDimension = od;
+      } else if (od is num) {
+        config.outputDimension = od.toInt();
+      }
+      final ol = raw['outputLandscape'];
+      if (ol is bool) {
+        config.outputLandscape = ol;
+      }
       notifyListeners();
     } on FormatException {
       // Ignore invalid saved state.
@@ -1445,6 +1503,9 @@ class AppState extends ChangeNotifier {
       'workers': config.workers,
       'maxApiRetries': config.maxApiRetries,
       'keepRaw': config.keepRaw,
+      if (config.aspectRatio != null) 'aspectRatio': config.aspectRatio,
+      if (config.outputDimension != null) 'outputDimension': config.outputDimension,
+      'outputLandscape': config.outputLandscape,
     };
     await file.writeAsString(jsonEncode(payload));
   }

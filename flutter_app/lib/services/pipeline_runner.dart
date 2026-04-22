@@ -280,6 +280,14 @@ class PipelineRunner {
       if (config.useResponseModalities) '--use-response-modalities',
       if (config.copyFailed) '--copy-failed',
       if (config.noProgress) '--no-progress',
+      if (config.aspectRatio != null && config.aspectRatio!.isNotEmpty) ...[
+        '--aspect-ratio',
+        config.aspectRatio!,
+      ],
+      if (config.computedOutputSize != null) ...[
+        '--output-size',
+        '${config.computedOutputSize!.$1}x${config.computedOutputSize!.$2}',
+      ],
     ];
   }
 
